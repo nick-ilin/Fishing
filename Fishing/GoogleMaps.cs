@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace Fishing
 {
@@ -45,9 +44,9 @@ namespace Fishing
             try
             {
                 string url = "gotomap.html?place=" + Koordinates;
-                System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + url);
+                //System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + url);
                 //mapBrowser.Navigate(AppDomain.CurrentDomain.BaseDirectory + url, "_self", postData, "Content-Type: application/x-www-form-urlencoded\r\n");
-                //mapBrowser.Navigate(AppDomain.CurrentDomain.BaseDirectory + url);
+                mapBrowser.Navigate(AppDomain.CurrentDomain.BaseDirectory + url);
                 //mapBrowser.Navigate("http://processormuseum.narod.ru/" + url);
             }
             catch (Exception ex)

@@ -28,7 +28,6 @@ namespace Fishing
         public Directory dir;
         public NewReport nRep;
         public GoogleMaps GM;
-        public MonthCalendar MC;
         public Foto fotoList;
         public Options opt;
         FrmSplash frmspl;
@@ -81,7 +80,7 @@ namespace Fishing
             dir = new Directory();
             nRep = new NewReport();
             GM = new GoogleMaps();
-            MC = new MonthCalendar();
+            //MC = new MonthCalendar();
             opt = new Options();
             fotoList = new Foto();
 
@@ -98,11 +97,11 @@ namespace Fishing
             dataGridView1.CellMouseUp += new DataGridViewCellMouseEventHandler(dataGridView1_CellMouseUp);
             dataGrid.KeyDown += new KeyEventHandler(dataGrid_KeyDown);
             nRep.FormClosing += new FormClosingEventHandler(nRep_FormClosing);
-            MC.FormClosing += new FormClosingEventHandler(MC_FormClosing);
+            //MC.FormClosing += new FormClosingEventHandler(MC_FormClosing);
             dir.FormClosing += new FormClosingEventHandler(dir_FormClosing);
             fotoList.FormClosed += new FormClosedEventHandler(fotoList_FormClosed);
-            textBox1.Click += new EventHandler(textBox1_Click);
-            textBox1_1.Click += new EventHandler(textBox2_Click);
+            //textBox1.Click += new EventHandler(textBox1_Click);
+            //textBox1_1.Click += new EventHandler(textBox2_Click);
             showMapToolStripMenuItem.Click += new EventHandler(showMapToolStripMenuItem_Click);
             showAllDayFishingToolStripMenuItem.Click += new EventHandler(showAllDayFishingToolStripMenuItem_Click);
             showToolStripMenuItem.Click += new EventHandler(showToolStripMenuItem_Click);
@@ -330,32 +329,6 @@ namespace Fishing
         void dataGrid_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
             e.Column.SortMode = DataGridViewColumnSortMode.NotSortable;
-        }
-
-        void MC_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (MonthCalendar.StartEnd == "start")
-            {
-                textBox1.Text = MonthCalendar.Date;
-            }
-            if (MonthCalendar.StartEnd == "end")
-            {
-                textBox1_1.Text = MonthCalendar.Date;
-            }
-        }
-
-        void textBox1_Click(object sender, EventArgs e)
-        {
-            MC.Location = textBox1.PointToScreen(new System.Drawing.Point(0, textBox1.Size.Height));
-            MonthCalendar.StartEnd = "start";
-            MC.ShowDialog();
-        }
-
-        void textBox2_Click(object sender, EventArgs e)
-        {
-            MC.Location = textBox1_1.PointToScreen(new Point(0, textBox1_1.Size.Height));
-            MonthCalendar.StartEnd = "end";
-            MC.ShowDialog();
         }
 
         void showAllToolStripMenuItem_Click(object sender, EventArgs e)

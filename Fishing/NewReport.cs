@@ -6,8 +6,6 @@ using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.OleDb;
-using System.Threading;
-using System.Reflection;
 using Microsoft.Win32;
 
 namespace Fishing
@@ -21,13 +19,11 @@ namespace Fishing
         private static string _Snasti = "";
         private static string _PlaceClicked = "";
         public GoogleMaps GM;
-        public MonthCalendar monCal;
         public Foto fotoList;
         private OleDbConnection myOleDbConnection;
         private OleDbCommand myOleDbCommand;
         string errPath = "errors.txt";
         string dbPath = AppDomain.CurrentDomain.BaseDirectory + "fishing.mdb";
-        //string curID = "";
         int preC = 0;
         int c = 0;
         int r = 30;
@@ -37,15 +33,11 @@ namespace Fishing
         {
             InitializeComponent();
             GM = new GoogleMaps();
-            monCal = new MonthCalendar();
             fotoList = new Foto();
             string connectionString = "provider=Microsoft.Jet.OLEDB.4.0; data source=" + dbPath;
             myOleDbConnection = new OleDbConnection(connectionString);
             myOleDbCommand = myOleDbConnection.CreateCommand();
             saveReportButton.Click += new EventHandler(saveReportButton_Click);
-            date.Click += new EventHandler(date_Click);
-            endDate.Click += new EventHandler(endDate_Click);
-            monCal.FormClosing += new FormClosingEventHandler(monCal_FormClosing);
             place_0.DoubleClick += new EventHandler(place_0_DoubleClick);
             place_0.Click += new EventHandler(place_0_Click);
             other.LostFocus += new EventHandler(other_LostFocus);
@@ -144,25 +136,6 @@ namespace Fishing
             place_0.SelectAll();
         }
 
-        void endDate_Click(object sender, EventArgs e)
-        {
-            if (endFishingDate.Checked)
-            {
-                monCal.Location = endDate.PointToScreen(new Point(0, date.Size.Height));
-                MonthCalendar.StartEnd = "end";
-                MonthCalendar.Date = endDate.Text;
-                monCal.ShowDialog();
-            }
-        }
-
-        private string defaultBrowser()
-        {
-            string regkey = @"http\shell\open\command";
-            RegistryKey registryKey = Registry.ClassesRoot.OpenSubKey(regkey, false);
-            string browserPath = ((string)registryKey.GetValue(null, null)).Split('"')[1];
-            return browserPath;
-        }
-
         void place_0_DoubleClick(object sender, EventArgs e)
         {
             string koordinates = "";
@@ -173,16 +146,16 @@ namespace Fishing
 
 
             string url = "gotomap.html?place=" + place_0.Text;
-            Process p = new Process();
-            p.StartInfo.FileName = defaultBrowser();
+            //Process p = new Process();
+            //p.StartInfo.FileName = defaultBrowser();
             //p.StartInfo.Arguments = "D:\\" + url;
-            p.StartInfo.Arguments = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, url);
-            p.Start();
+            //p.StartInfo.Arguments = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, url);
+            //p.Start();
 
             //Process.Start(Path.Combine("D:\\", "gotomap.html"));
             //Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "gotomap.html?"));
 
-            /*try
+            try
             {
                 System.Net.IPHostEntry objIPHE = System.Net.Dns.GetHostEntry("www.yandex.ru");
                 GoogleMaps.Koordinates = place_0.Text;
@@ -192,7 +165,7 @@ namespace Fishing
             {
                 MessageBox.Show("Сервер Яндекс не отвечает, проверьте интернет-соединение.");
                 writeErrors(ex.ToString());
-            }*/
+            }
         }
 
         void NewReport_Shown(object sender, EventArgs e)
@@ -201,25 +174,21 @@ namespace Fishing
             getControlsAndData();
         }
 
-        void monCal_FormClosing(object sender, FormClosingEventArgs e)
+        /*void monCal_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (MonthCalendar.StartEnd == "start")
             {
                 date.Text = MonthCalendar.Date;
             }
-            if (MonthCalendar.StartEnd == "end")
-            {
-                endDate.Text = MonthCalendar.Date;
-            }
-        }
+        }*/
 
-        void date_Click(object sender, EventArgs e)
+        /*void date_Click(object sender, EventArgs e)
         {
-            monCal.Location = date.PointToScreen(new Point(0, date.Size.Height));
+            monCal.Location = date1.PointToScreen(new Point(0, date1.Size.Height));
             MonthCalendar.StartEnd = "start";
-            MonthCalendar.Date = date.Text;
+            MonthCalendar.Date = date1.Text;
             monCal.ShowDialog();
-        }
+        }*/
 
         private void getControlsAndData()
         {
@@ -237,7 +206,7 @@ namespace Fishing
                 other.Name = "other_0";
                 try
                 {
-                    myOleDbCommand.CommandText = "SELECT [Дата],[Дата2],fishnames.name,[Количество],[Длина],[Вес],[Остальные],[Общий вес],snasti.name,places.name,[Регион],[Время дня],[Осадки],[Ветер],[Направление],[Температура],[Давление],[Луна],[У других],[Заметки],[Координаты],[База],id2 " +
+                    myOleDbCommand.CommandText = "SELECT [Дата],fishnames.name,[Количество],[Длина],[Вес],[Остальные],[Общий вес],snasti.name,places.name,[Регион],[Время дня],[Осадки],[Ветер],[Направление],[Температура],[Давление],[Луна],[У других],[Заметки],[Координаты],[База],id2 " +
                         "FROM fishing,fishnames,snasti,places WHERE fishing.[Рыба] = fishnames.id AND fishing.[Снасть] = snasti.id AND fishing.[Водоем] = places.id AND [Дата] = DATEVALUE('" + CurrentDate + "') ORDER BY id2";
                     myOleDbConnection.Open();
                     DataSet ds = new DataSet();
@@ -254,21 +223,21 @@ namespace Fishing
                         Control other_ = mainFishGroupBox.Controls["other_" + i];
                         ComboBox snasti_ = (ComboBox)mainFishGroupBox.Controls["snasti_" + i];
                         Control place_ = mainFishGroupBox.Controls["place_" + i];
-                        fish_.SelectedItem = ds.Tables[0].Rows[i].ItemArray[2].ToString();
-                        number_.Text = ds.Tables[0].Rows[i].ItemArray[3].ToString();
-                        lenght_.Text = ds.Tables[0].Rows[i].ItemArray[4].ToString();
-                        weight_.Text = ds.Tables[0].Rows[i].ItemArray[5].ToString();
-                        other_.Text = ds.Tables[0].Rows[i].ItemArray[6].ToString();
-                        snasti_.SelectedItem = ds.Tables[0].Rows[i].ItemArray[8].ToString();
-                        place_.Text = ds.Tables[0].Rows[i].ItemArray[20].ToString();
+                        fish_.SelectedItem = ds.Tables[0].Rows[i].ItemArray[1].ToString();
+                        number_.Text = ds.Tables[0].Rows[i].ItemArray[2].ToString();
+                        lenght_.Text = ds.Tables[0].Rows[i].ItemArray[3].ToString();
+                        weight_.Text = ds.Tables[0].Rows[i].ItemArray[4].ToString();
+                        other_.Text = ds.Tables[0].Rows[i].ItemArray[5].ToString();
+                        snasti_.SelectedItem = ds.Tables[0].Rows[i].ItemArray[7].ToString();
+                        place_.Text = ds.Tables[0].Rows[i].ItemArray[19].ToString();
                     }
                     date.Text = ds.Tables[0].Rows[0].ItemArray[0].ToString().Remove(10);
-                    if (ds.Tables[0].Rows[0].ItemArray[1].ToString() != "")
+                    /*if (ds.Tables[0].Rows[0].ItemArray[1].ToString() != "")
                     {
                         endDate.Text = ds.Tables[0].Rows[0].ItemArray[1].ToString().Remove(10);
                         endFishingDate.Checked = true;
-                    }
-                    int reg = Convert.ToInt32(ds.Tables[0].Rows[0].ItemArray[10]);
+                    }*/
+                    int reg = Convert.ToInt32(ds.Tables[0].Rows[0].ItemArray[9]);
                     if (reg > 20)
                     {
                         region.SelectedIndex = reg - 2;
@@ -277,18 +246,18 @@ namespace Fishing
                     {
                         region.SelectedIndex = reg - 1;
                     }
-                    vodoem.SelectedItem = ds.Tables[0].Rows[0].ItemArray[9].ToString();
-                    fishBase.SelectedItem = ds.Tables[0].Rows[0].ItemArray[21].ToString();
-                    timeofDay.SelectedItem = ds.Tables[0].Rows[0].ItemArray[11];
-                    rain.SelectedItem = ds.Tables[0].Rows[0].ItemArray[12];
-                    wind.SelectedItem = ds.Tables[0].Rows[0].ItemArray[13];
-                    direction.SelectedItem = ds.Tables[0].Rows[0].ItemArray[14];
-                    temperature.Text = ds.Tables[0].Rows[0].ItemArray[15].ToString();
-                    pressure.Text = ds.Tables[0].Rows[0].ItemArray[16].ToString();
-                    moon.SelectedItem = ds.Tables[0].Rows[0].ItemArray[17];
-                    otherFishers.SelectedItem = ds.Tables[0].Rows[0].ItemArray[18];
-                    totalWeight.Text = ds.Tables[0].Rows[0].ItemArray[7].ToString();
-                    notesTextBox.Text = ds.Tables[0].Rows[0].ItemArray[19].ToString();
+                    vodoem.SelectedItem = ds.Tables[0].Rows[0].ItemArray[8].ToString();
+                    fishBase.SelectedItem = ds.Tables[0].Rows[0].ItemArray[20].ToString();
+                    timeofDay.SelectedItem = ds.Tables[0].Rows[0].ItemArray[10];
+                    rain.SelectedItem = ds.Tables[0].Rows[0].ItemArray[11];
+                    wind.SelectedItem = ds.Tables[0].Rows[0].ItemArray[12];
+                    direction.SelectedItem = ds.Tables[0].Rows[0].ItemArray[13];
+                    temperature.Text = ds.Tables[0].Rows[0].ItemArray[14].ToString();
+                    pressure.Text = ds.Tables[0].Rows[0].ItemArray[15].ToString();
+                    moon.SelectedItem = ds.Tables[0].Rows[0].ItemArray[16];
+                    otherFishers.SelectedItem = ds.Tables[0].Rows[0].ItemArray[17];
+                    totalWeight.Text = ds.Tables[0].Rows[0].ItemArray[6].ToString();
+                    notesTextBox.Text = ds.Tables[0].Rows[0].ItemArray[18].ToString();
                 }
                 catch (Exception ex)
                 {
@@ -326,7 +295,7 @@ namespace Fishing
             CurrentDate = "";
             CurrentID = "";
             date.Text = "";
-            endDate.Text = "";
+            //endDate.Text = "";
             number.Text = "";
             lenght.Text = "";
             weight.Text = "";
@@ -346,8 +315,8 @@ namespace Fishing
             wind.SelectedIndex = -1;
             moon.SelectedIndex = -1;
             otherFishers.SelectedIndex = -1;
-            endFishingDate.Checked = false;
-            endDate.Enabled = false;
+            //endFishingDate.Checked = false;
+            //endDate.Enabled = false;
             preC = 0;
             int z = c;
             if (z > 0)
@@ -366,15 +335,15 @@ namespace Fishing
             {
                 this.SelectNextControl(control, true, true, true, true);
             }
-            if ((e.Modifiers == Keys.Control) && ((e.KeyCode == Keys.Oemplus) || (e.KeyCode == Keys.Add)))
+            if ((e.Modifiers == Keys.Control) && (e.KeyCode == Keys.Oemplus))
             {
                 addControlsFunc();
             }
-            if ((e.Modifiers == Keys.Control) && ((e.KeyCode == Keys.OemMinus) || (e.KeyCode == Keys.Subtract)))
+            if ((e.Modifiers == Keys.Control) && (e.KeyCode == Keys.OemMinus))
             {
                 deleteControlsFunc();
             }
-            if ((e.Modifiers == Keys.Control) && ((e.KeyCode == Keys.S)))
+            if ((e.Modifiers == Keys.Control) && (e.KeyCode == Keys.S))
             {
                 saveFunc();
             }
@@ -514,13 +483,13 @@ namespace Fishing
                 //string url = "gotomap.html?place=" + tb.Text;
                 string url = "gotomap.html";
                 System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + url);
-                /*System.Net.IPHostEntry objIPHE = System.Net.Dns.GetHostEntry("www.yandex.ru");
+                System.Net.IPHostEntry objIPHE = System.Net.Dns.GetHostEntry("www.yandex.ru");
 
                 TextBox tb = (TextBox)sender;
                 GoogleMaps.Koordinates = tb.Text;
                 GM.FormClosed += new FormClosedEventHandler(GM_FormClosed);
                 PlaceClicked = tb.Name;
-                GM.ShowDialog();*/
+                GM.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -556,13 +525,6 @@ namespace Fishing
         {
             bool valid = false;
             string messageText = "";
-            if (endDate.Text != "")
-            {
-                if (Convert.ToDateTime(date.Text) >= Convert.ToDateTime(endDate.Text))
-                {
-                    messageText += "Дата окончания не должна быть меньше или равна дате рыбалки\n";
-                }
-            }
             if (date.Text == "")
             {
                 messageText += "Введите дату\n";
@@ -644,10 +606,7 @@ namespace Fishing
             {
                 bool close = true;
                 string dateFishing = date.Text;
-                string endDateFishing = "NULL";
-                if (endFishingDate.Checked && endDate.Text != "") endDateFishing = "\"" + endDate.Text + "\"";
-                string[] dateSplited = new string[3];
-                dateSplited = dateFishing.Split('.');
+                string[] dateSplited = dateFishing.Split('.');
                 string id_ = dateSplited[2] + dateSplited[1] + dateSplited[0];
                 string fishTotalWeight = "NULL";
                 string fishTemperature = "NULL";
@@ -674,7 +633,6 @@ namespace Fishing
                 lenght.Name = "lenght_0";
                 weight.Name = "weight_0";
                 other.Name = "other_0";
-                //if (CurrentID != "") curID = CurrentID.Remove(8);
                 if (c < preC)
                 {
                     for (int i = 0; i <= preC; i++)
@@ -709,7 +667,7 @@ namespace Fishing
                                 if (weight_.Text != "") fishWeight = weight_.Text;
                                 string otherFish = other_.Text.Replace('.', ',').Replace('/', ',');
                                 myOleDbCommand.CommandText = "UPDATE fishing " +
-                                "SET [Дата] = \"" + dateFishing + "\",[Дата2] = " + endDateFishing + ",[Рыба] = " + fishId + ",[Количество] = " + fishNumber + ",[Длина] = " + fishLenght + ",[Вес] = " + fishWeight + ",[Остальные] = \"" + otherFish + "\",[Общий вес] = "
+                                "SET [Дата] = \"" + dateFishing + "\",[Рыба] = " + fishId + ",[Количество] = " + fishNumber + ",[Длина] = " + fishLenght + ",[Вес] = " + fishWeight + ",[Остальные] = \"" + otherFish + "\",[Общий вес] = "
                                 + fishTotalWeight + ",[Снасть] = " + fishSnasti + ",[Водоем] = " + fishVodoem + ",[Регион] = " + fishRegion + ",[Время дня] = \"" + fishTime + "\",[Осадки] = \"" + fishRain + "\",[Ветер] = \"" + fishWind + "\",[Направление] = \""
                                 + fishDirection + "\",[Температура] = " + fishTemperature + ",[Давление] = " + fishPressure + ",[Луна] = \"" + fishMoon + "\",[У других] = \"" + fishOtherFishers + "\",[База] = \"" + fishBazaOtdyha + "\",[Заметки] = \"" + fishNotes + "\"" + ",[Координаты] = \"" + fishPlace + "\",[id2] =\"" + id2 + "\" " +
                                 "WHERE id2 = \"" + id_ + i + "\"";
@@ -778,7 +736,7 @@ namespace Fishing
                                 //Для модификации базы нажать кнопку сохранить.//
                                 //myOleDbCommand.CommandText = "UPDATE fishing set [Водоем] = 10001 WHERE [Водоем] in (10002,10003,10004,10005,10006,10007,10008,10009,10010,10011,10012,10013,10015,10016,10018,10019,10020,10023,10027,10028,10029,10031,10032,10033,10035)";
                                 myOleDbCommand.CommandText = "INSERT INTO fishing ([Дата],[Дата2],[Рыба],[Количество],[Длина],[Вес],[Остальные],[Общий вес],[Снасть],[Водоем],[Регион],[Время дня],[Осадки],[Ветер],[Направление],[Температура],[Давление],[Луна],[У других],[База],[Заметки],[id2],[Координаты]) "
-                                                                + "VALUES (\"" + dateFishing + "\"," + endDateFishing + "," + fishId + "," + fishNumber + "," + fishLenght + "," + fishWeight + ",\"" + otherFish + "\"," + fishTotalWeight + "," + fishSnasti + "," + fishVodoem + "," + fishRegion
+                                                                + "VALUES (\"" + dateFishing + "\"," + fishId + "," + fishNumber + "," + fishLenght + "," + fishWeight + ",\"" + otherFish + "\"," + fishTotalWeight + "," + fishSnasti + "," + fishVodoem + "," + fishRegion
                                                                 + ",\"" + fishTime + "\",\"" + fishRain + "\",\"" + fishWind + "\",\"" + fishDirection + "\"," + fishTemperature + "," + fishPressure + ",\"" + fishMoon + "\",\"" + fishOtherFishers + "\",\"" + fishBazaOtdyha + "\",\"" + fishNotes + "\",\"" + id2 + "\",\"" + fishPlace + "\")";
                             }
                             else
@@ -786,7 +744,7 @@ namespace Fishing
                                 if (i <= preC)
                                 {
                                     myOleDbCommand.CommandText = "UPDATE fishing " +
-                                    "SET [Дата] = \"" + dateFishing + "\",[Дата2] = " + endDateFishing + ",[Рыба] = " + fishId + ",[Количество] = " + fishNumber + ",[Длина] = " + fishLenght + ",[Вес] = " + fishWeight + ",[Остальные] = \"" + otherFish + "\",[Общий вес] = "
+                                    "SET [Дата] = \"" + dateFishing + "\",[Рыба] = " + fishId + ",[Количество] = " + fishNumber + ",[Длина] = " + fishLenght + ",[Вес] = " + fishWeight + ",[Остальные] = \"" + otherFish + "\",[Общий вес] = "
                                     + fishTotalWeight + ",[Снасть] = " + fishSnasti + ",[Водоем] = " + fishVodoem + ",[Регион] = " + fishRegion + ",[Время дня] = \"" + fishTime + "\",[Осадки] = \"" + fishRain + "\",[Ветер] = \"" + fishWind + "\",[Направление] = \""
                                     + fishDirection + "\",[Температура] = " + fishTemperature + ",[Давление] = " + fishPressure + ",[Луна] = \"" + fishMoon + "\",[У других] = \"" + fishOtherFishers + "\",[База] = \"" + fishBazaOtdyha + "\",[Заметки] = \"" + fishNotes + "\"" + ",[Координаты] = \"" + fishPlace + "\",[id2] =\"" + id2 + "\" " +
                                     "WHERE id2 = \"" + id_ + i + "\"";
@@ -794,7 +752,7 @@ namespace Fishing
                                 else
                                 {
                                     myOleDbCommand.CommandText = "INSERT INTO fishing ([Дата],[Дата2],[Рыба],[Количество],[Длина],[Вес],[Остальные],[Общий вес],[Снасть],[Водоем],[Регион],[Время дня],[Осадки],[Ветер],[Направление],[Температура],[Давление],[Луна],[У других],[База],[Заметки],[id2],[Координаты]) "
-                                + "VALUES (\"" + dateFishing + "\"," + endDateFishing + "," + fishId + "," + fishNumber + "," + fishLenght + "," + fishWeight + ",\"" + otherFish + "\"," + fishTotalWeight + "," + fishSnasti + "," + fishVodoem + "," + fishRegion
+                                + "VALUES (\"" + dateFishing + "\"," + fishId + "," + fishNumber + "," + fishLenght + "," + fishWeight + ",\"" + otherFish + "\"," + fishTotalWeight + "," + fishSnasti + "," + fishVodoem + "," + fishRegion
                                 + ",\"" + fishTime + "\",\"" + fishRain + "\",\"" + fishWind + "\",\"" + fishDirection + "\"," + fishTemperature + "," + fishPressure + ",\"" + fishMoon + "\",\"" + fishOtherFishers + "\",\"" + fishBazaOtdyha + "\",\"" + fishNotes + "\",\"" + id2 + "\",\"" + fishPlace + "\")";
                                 }
                             }
@@ -867,21 +825,6 @@ namespace Fishing
             else
             {
                 MessageBox.Show("Введите дату", "Ошибка ввода");
-            }
-        }
-
-        private void endFishingDate_CheckedChanged(object sender, EventArgs e)
-        {
-            if (endFishingDate.Checked)
-            {
-                endDate.Enabled = true;
-                endDate.BackColor = SystemColors.Window;
-            }
-            else
-            {
-                endDate.Enabled = false;
-                endDate.Text = "";
-                endDate.BackColor = SystemColors.Control;
             }
         }
     }

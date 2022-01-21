@@ -21,7 +21,6 @@ namespace Fishing
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Splasher.Show(typeof(FrmSplash));
             Application.Run(new Form1());
         }
     }

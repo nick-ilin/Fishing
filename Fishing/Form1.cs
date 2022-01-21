@@ -17,39 +17,36 @@ namespace Fishing
 {
     public partial class Form1 : Form
     {
-        private static string[] _fishnamesTable;
-        private static string[] _fishnamesId;
+        private static string[] _fishnameTable;
+        private static string[] _fishnameId;
         private static string[] _snastiTable;
         private static string[] _snastiId;
         private static string[] _vodoemTable;
         private static string[] _vodoemId;
         private static string[] _regionTable;
-        private static string[] _fishbaseTable;
         public Directory dir;
         public NewReport nRep;
-        public GoogleMaps GM;
-        public MonthCalendar MC;
+        public GoogleMaps googleMaps;
         public Foto fotoList;
         public Options opt;
-        FrmSplash frmspl;
+        public FrmSplash frmspl;
         private OleDbConnection myOleDbConnection;
-        private OleDbCommand    myOleDbCommand;
-        string[] months       = new string[13] { "", "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
-        string yearFromNR = "";
-        int openedRow = 0;
-        string errPath = "errors.txt";
-        string dbPath = AppDomain.CurrentDomain.BaseDirectory + "fishing.mdb";
-        string iniFile = AppDomain.CurrentDomain.BaseDirectory + "fishing.ini";
-        FileInfo dbInfo;
-        string connectionString = "";
-        Thread splashStart;
+        private OleDbCommand myOleDbCommand;
+        private readonly string[] months = new string[13] { "", "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
+        private string yearFromNR = "";
+        private int openedRow = 0;
+        private const string ERRPATH = "errors.txt";
+        private readonly string dbPath = AppDomain.CurrentDomain.BaseDirectory + "fishing.mdb";
+        private readonly FileInfo dbInfo;
+        private string connectionString = "";
+        private Thread splashStart;
 
         public Form1()
         {
             InitializeComponent();
             string version = ProductName + " " + ProductVersion.Remove(ProductVersion.IndexOf('.',2));
             this.Text = version;
-            FileInfo dbInfo = new FileInfo(dbPath);
+            dbInfo = new FileInfo(dbPath);
             if (!dbInfo.Exists)
             {
                 MessageBox.Show("Отсутствует база fishing.mdb");
@@ -61,16 +58,15 @@ namespace Fishing
             }
             else
             {
-                baseLoad();
+                BaseLoad();
             }
         }
 
-        void baseLoad()
+        private void BaseLoad()
         {
             splashStart = new Thread(new ThreadStart(SplashForm));
             splashStart.Start();
             Thread.Sleep(2000); //Emulate hardworking ))
-            dbInfo = new FileInfo(dbPath);
             if (dbInfo.IsReadOnly)
             {
                 dbInfo.Attributes = FileAttributes.Normal;
@@ -80,41 +76,37 @@ namespace Fishing
             myOleDbCommand = myOleDbConnection.CreateCommand();
             dir = new Directory();
             nRep = new NewReport();
-            GM = new GoogleMaps();
-            MC = new MonthCalendar();
+            googleMaps = new GoogleMaps();
             opt = new Options();
             fotoList = new Foto();
 
-            yearListBox.SelectedIndexChanged += new EventHandler(yearListBox_SelectedIndexChanged);
-            comboBox1.SelectedIndexChanged += new EventHandler(comboBox1_SelectedIndexChanged);
-            comboBox17.SelectedIndexChanged += new EventHandler(comboBox17_SelectedIndexChanged);
-            comboBox18.SelectedIndexChanged += new EventHandler(comboBox18_SelectedIndexChanged);
-            tabControl1.SelectedIndexChanged += new EventHandler(tabControl1_SelectedIndexChanged);
-            reportTabPage.Enter += new EventHandler(reportTabPage_Enter);
-            recordTabPage.Enter += new EventHandler(recordTabPage_Enter);
-            chartTabPage.Enter += new EventHandler(chartTabPage_Enter);
-            dataGrid.CellMouseUp += new DataGridViewCellMouseEventHandler(dataGrid_CellMouseUp);
-            recordDataGrid.CellMouseUp += new DataGridViewCellMouseEventHandler(recordDataGrid_CellMouseUp);
-            dataGridView1.CellMouseUp += new DataGridViewCellMouseEventHandler(dataGridView1_CellMouseUp);
-            dataGrid.KeyDown += new KeyEventHandler(dataGrid_KeyDown);
-            nRep.FormClosing += new FormClosingEventHandler(nRep_FormClosing);
-            MC.FormClosing += new FormClosingEventHandler(MC_FormClosing);
-            dir.FormClosing += new FormClosingEventHandler(dir_FormClosing);
-            fotoList.FormClosed += new FormClosedEventHandler(fotoList_FormClosed);
-            textBox1.Click += new EventHandler(textBox1_Click);
-            textBox1_1.Click += new EventHandler(textBox2_Click);
-            showMapToolStripMenuItem.Click += new EventHandler(showMapToolStripMenuItem_Click);
-            showAllDayFishingToolStripMenuItem.Click += new EventHandler(showAllDayFishingToolStripMenuItem_Click);
-            showToolStripMenuItem.Click += new EventHandler(showToolStripMenuItem_Click);
-            showAllToolStripMenuItem.Click += new EventHandler(showAllToolStripMenuItem_Click);
-            dataGrid.ColumnAdded += new DataGridViewColumnEventHandler(dataGrid_ColumnAdded);
+            yearListBox.SelectedIndexChanged += new EventHandler(YearListBox_SelectedIndexChanged);
+            comboBox1.SelectedIndexChanged += new EventHandler(ComboBox1_SelectedIndexChanged);
+            comboBox17.SelectedIndexChanged += new EventHandler(ComboBox17_SelectedIndexChanged);
+            comboBox18.SelectedIndexChanged += new EventHandler(ComboBox18_SelectedIndexChanged);
+            tabControl1.SelectedIndexChanged += new EventHandler(TabControl1_SelectedIndexChanged);
+            reportTabPage.Enter += new EventHandler(ReportTabPage_Enter);
+            recordTabPage.Enter += new EventHandler(RecordTabPage_Enter);
+            chartTabPage.Enter += new EventHandler(ChartTabPage_Enter);
+            dataGrid.CellMouseUp += new DataGridViewCellMouseEventHandler(DataGrid_CellMouseUp);
+            recordDataGrid.CellMouseUp += new DataGridViewCellMouseEventHandler(RecordDataGrid_CellMouseUp);
+            dataGridView1.CellMouseUp += new DataGridViewCellMouseEventHandler(DataGridView1_CellMouseUp);
+            dataGrid.KeyDown += new KeyEventHandler(DataGrid_KeyDown);
+            nRep.FormClosing += new FormClosingEventHandler(NRep_FormClosing);
+            dir.FormClosing += new FormClosingEventHandler(Dir_FormClosing);
+            fotoList.FormClosed += new FormClosedEventHandler(FotoList_FormClosed);
+            showMapToolStripMenuItem.Click += new EventHandler(ShowMapToolStripMenuItem_Click);
+            showAllDayFishingToolStripMenuItem.Click += new EventHandler(ShowAllDayFishingToolStripMenuItem_Click);
+            showToolStripMenuItem.Click += new EventHandler(ShowToolStripMenuItem_Click);
+            showAllToolStripMenuItem.Click += new EventHandler(ShowAllToolStripMenuItem_Click);
+            dataGrid.ColumnAdded += new DataGridViewColumnEventHandler(DataGrid_ColumnAdded);
             radiousComboBox.SelectedIndex = 2;
             this.Shown += new EventHandler(Form1_Shown);
-            getYears();
+            GetYears();
             splashStart.Abort();
         }
 
-        void fotoList_FormClosed(object sender, FormClosedEventArgs e)
+        void FotoList_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (dataGrid.RowCount > 0)
             {
@@ -134,12 +126,12 @@ namespace Fishing
             }
         }
 
-        void dir_FormClosing(object sender, FormClosingEventArgs e)
+        void Dir_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Thread fillDictionaries = new Thread(fillDict);
+            Thread fillDictionaries = new Thread(FillDict);
             fillDictionaries.Start();
             fillDictionaries.Join();
-            fillComboBoxes();
+            FillComboBoxes();
         }
 
         private void SplashForm()
@@ -152,34 +144,34 @@ namespace Fishing
         void Form1_Shown(object sender, EventArgs e)
         {
             this.Activate();
-            Thread fillDictionaries = new Thread(fillDict);
+            Thread fillDictionaries = new Thread(FillDict);
             fillDictionaries.Start();
             fillDictionaries.Join();
-            fillComboBoxes();
+            FillComboBoxes();
         }
 
-        public static string[] FishnamesTable
+        public static string[] FishnameTable
         {
             get
             {
-                return _fishnamesTable;
+                return _fishnameTable;
             }
             set
             {
-                _fishnamesTable = value;
+                _fishnameTable = value;
                 return;
             }
         }
 
-        public static string[] FishnamesID
+        public static string[] FishnameID
         {
             get
             {
-                return _fishnamesId;
+                return _fishnameId;
             }
             set
             {
-                _fishnamesId = value;
+                _fishnameId = value;
                 return;
             }
         }
@@ -210,32 +202,6 @@ namespace Fishing
             }
         }
 
-        public static string[] RegionTable
-        {
-            get
-            {
-                return _regionTable;
-            }
-            set
-            {
-                _regionTable = value;
-                return;
-            }
-        }
-
-        public static string[] FishbaseTable
-        {
-            get
-            {
-                return _fishbaseTable;
-            }
-            set
-            {
-                _fishbaseTable = value;
-                return;
-            }
-        }
-
         public static string[] VodoemTable
         {
             get
@@ -261,38 +227,25 @@ namespace Fishing
                 return;
             }
         }
-
-        void getOptions()
+        public static string[] RegionTable
         {
-            try
+            get
             {
-                myOleDbCommand.CommandText = "SELECT * FROM options";
-                myOleDbConnection.Open();
-                DataSet ds = new DataSet();
-                OleDbDataAdapter adapter = new OleDbDataAdapter(myOleDbCommand);
-                adapter.Fill(ds);
-                Options.MyRegion = Convert.ToInt32(ds.Tables[0].Rows[0].ItemArray[1]);
-                Options.SendMail = Convert.ToBoolean(ds.Tables[0].Rows[0].ItemArray[2]);
-                Options.Mail = ds.Tables[0].Rows[0].ItemArray[3].ToString();
-                Options.Password = ds.Tables[0].Rows[0].ItemArray[4].ToString();
+                return _regionTable;
             }
-            catch (Exception ex)
+            set
             {
-                MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
-            }
-            finally
-            {
-                myOleDbConnection.Close();
+                _regionTable = value;
+                return;
             }
         }
 
-        void reportTabPage_Enter(object sender, EventArgs e)
+        private void ReportTabPage_Enter(object sender, EventArgs e)
         {
-            fillDataGrid();
+            FillDataGrid();
         }
 
-        void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tabControl1.SelectedIndex == 0)
             {
@@ -305,7 +258,7 @@ namespace Fishing
             }
         }
 
-        void comboBox18_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox18_SelectedIndexChanged(object sender, EventArgs e)
         {
             textBox18.Text = "";
             textBox18_1.Text = "";
@@ -316,7 +269,7 @@ namespace Fishing
             }
         }
 
-        void comboBox17_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox17_SelectedIndexChanged(object sender, EventArgs e)
         {
             textBox17.Text = "";
             textBox17_1.Text = "";
@@ -327,120 +280,95 @@ namespace Fishing
             }
         }
 
-        void dataGrid_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
+        private void DataGrid_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
             e.Column.SortMode = DataGridViewColumnSortMode.NotSortable;
         }
 
-        void MC_FormClosing(object sender, FormClosingEventArgs e)
+        private void ShowAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MonthCalendar.StartEnd == "start")
+            ShowAllFishingByContextMenu(dataGridView1);
+        }
+
+        private void ShowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowFishingByContextMenu(dataGridView1);
+        }
+
+        private void ShowAllDayFishingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowAllFishingByContextMenu(dataGrid);
+        }
+
+        private void ShowMapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowFishingByContextMenu(dataGrid);
+        }
+
+        private void ShowInRadiousToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string coordinates = "";
+            string[] splitedCoordinates;
+            string[] splitedSelectedCoordinates;
+            string selectedCoordinates = dataGridView1["Координаты", dataGridView1.CurrentRow.Index].Value.ToString();
+            if(selectedCoordinates.Contains("p")) selectedCoordinates = selectedCoordinates.Remove(selectedCoordinates.IndexOf('p'));
+            splitedSelectedCoordinates = selectedCoordinates.Split(',');
+            if (selectedCoordinates != "")
             {
-                textBox1.Text = MonthCalendar.Date;
-            }
-            if (MonthCalendar.StartEnd == "end")
-            {
-                textBox1_1.Text = MonthCalendar.Date;
-            }
-        }
-
-        void textBox1_Click(object sender, EventArgs e)
-        {
-            MC.Location = textBox1.PointToScreen(new System.Drawing.Point(0, textBox1.Size.Height));
-            MonthCalendar.StartEnd = "start";
-            MC.ShowDialog();
-        }
-
-        void textBox2_Click(object sender, EventArgs e)
-        {
-            MC.Location = textBox1_1.PointToScreen(new Point(0, textBox1_1.Size.Height));
-            MonthCalendar.StartEnd = "end";
-            MC.ShowDialog();
-        }
-
-        void showAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showAllFishingByContextMenu(dataGridView1);
-        }
-
-        void showToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showFishingByContextMenu(dataGridView1);
-        }
-
-        void showAllDayFishingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showAllFishingByContextMenu(dataGrid);
-        }
-
-        void showMapToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showFishingByContextMenu(dataGrid);
-        }
-
-        private void showInRadiousToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string lonlat = "";
-            string[] ll;
-            string[] mm;
-            string mainKoords = dataGridView1["Координаты", dataGridView1.CurrentRow.Index].Value.ToString();
-            if(mainKoords.Contains("p")) mainKoords = mainKoords.Remove(mainKoords.IndexOf('p'));
-            mm = mainKoords.Split(',');
-            double lat1 = Convert.ToDouble(mm[0].Replace('.', ','));
-            double lon1 = Convert.ToDouble(mm[1].Replace('.', ','));
-            for (int i = 0; i < dataGridView1.RowCount; i++)
-            {
-                lonlat += dataGridView1["Координаты", i].Value.ToString() +"p";
-            }
-            lonlat = lonlat.TrimEnd('p');
-            ll = lonlat.Split('p');
-            lonlat = "";
-            for (int j = 0; j < ll.Length; j++)
-            {
-                string[] jj;
-                jj = ll[j].Split(',');
-                double lat2 = Convert.ToDouble(jj[0].Replace('.', ','));
-                double lon2 = Convert.ToDouble(jj[1].Replace('.', ','));
-                double chlat = lat2 - lat1;
-                double chlon = lon2 - lon1;
-                double dlat = chlat * (Math.PI / 180);
-                double dlon = chlon * (Math.PI / 180);
-                double rlat1 = lat1 * (Math.PI / 180);
-                double rlat2 = lat2 * (Math.PI / 180);
-                double a = Math.Sin(dlat/2) * Math.Sin(dlat/2) + Math.Sin(dlon/2) * Math.Sin(dlon/2) * Math.Cos(rlat1) * Math.Cos(rlat2);;
-                double c = 2*Math.Atan2(Math.Sqrt(a), Math.Sqrt(1-a));
-                double d = 6371 * c; //Earth Radious
-                if (d <= Convert.ToDouble(radiousComboBox.SelectedItem.ToString())) lonlat += lat2.ToString().Replace(',', '.') + "," + lon2.ToString().Replace(',', '.') + "p";
-            }
-            try
-            {
-                IPHostEntry objIPHE = Dns.GetHostEntry("www.yandex.ru");
-                GoogleMaps.Koordinates = lonlat.TrimEnd('p');
-                GM.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Сервер Яндекс не отвечает, проверьте интернет-соединение.");
-                writeErrors(ex.ToString());
+                double lat1 = Convert.ToDouble(splitedSelectedCoordinates[0].Replace('.', ','));
+                double lon1 = Convert.ToDouble(splitedSelectedCoordinates[1].Replace('.', ','));
+                for (int i = 0; i < dataGridView1.RowCount; i++)
+                {
+                    if(dataGridView1["Координаты", i].Value.ToString() != "") coordinates += dataGridView1["Координаты", i].Value.ToString() + "p";
+                }
+                coordinates = coordinates.TrimEnd('p');
+                splitedCoordinates = coordinates.Split('p');
+                coordinates = "";
+                for (int j = 0; j < splitedCoordinates.Length; j++)
+                {
+                    string[] latitudeAndLongitude;
+                    latitudeAndLongitude = splitedCoordinates[j].Split(',');
+                    double lat2 = Convert.ToDouble(latitudeAndLongitude[0].Replace('.', ','));
+                    double lon2 = Convert.ToDouble(latitudeAndLongitude[1].Replace('.', ','));
+                    double dlat = (lat2 - lat1) * (Math.PI / 180);
+                    double dlon = (lon2 - lon1) * (Math.PI / 180);
+                    double rlat1 = lat1 * (Math.PI / 180);
+                    double rlat2 = lat2 * (Math.PI / 180);
+                    double a = Math.Sin(dlat / 2) * Math.Sin(dlat / 2) + Math.Sin(dlon / 2) * Math.Sin(dlon / 2) * Math.Cos(rlat1) * Math.Cos(rlat2); ;
+                    double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+                    double d = 6371 * c; //Earth Radious
+                    if (d <= Convert.ToDouble(radiousComboBox.SelectedItem.ToString())) coordinates += lat2.ToString().Replace(',', '.') + "," + lon2.ToString().Replace(',', '.') + "p";
+                }
+                try
+                {
+                    IPHostEntry objIPHE = Dns.GetHostEntry("www.yandex.ru");
+                    GoogleMaps.Koordinates = coordinates.TrimEnd('p');
+                    googleMaps.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Сервер Яндекс не отвечает, проверьте интернет-соединение.");
+                    WriteErrors(ex.ToString());
+                }
             }
         }
 
-        private void showFishingByContextMenu(DataGridView obj)
+        private void ShowFishingByContextMenu(DataGridView obj)
         {
             try
             {
                 IPHostEntry objIPHE = Dns.GetHostEntry("www.yandex.ru");
                 GoogleMaps.Koordinates = obj["Координаты", obj.CurrentRow.Index].Value.ToString();
-                GM.ShowDialog();
+                googleMaps.ShowDialog();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Сервер Яндекс не отвечает, проверьте интернет-соединение.");
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
         }
 
-        private void showAllFishingByContextMenu(DataGridView obj)
+        private void ShowAllFishingByContextMenu(DataGridView obj)
         {
             string fishingDate = obj["Дата", obj.CurrentRow.Index].Value.ToString();
             string lonlat2 = "";
@@ -455,16 +383,16 @@ namespace Fishing
             {
                 IPHostEntry objIPHE = Dns.GetHostEntry("www.yandex.ru");
                 GoogleMaps.Koordinates = lonlat2.TrimEnd('p');
-                GM.ShowDialog();
+                googleMaps.ShowDialog();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Сервер Яндекс не отвечает, проверьте интернет-соединение.");
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
         }
 
-        void chartTabPage_Enter(object sender, EventArgs e)
+        private void ChartTabPage_Enter(object sender, EventArgs e)
         {
             chartTabPage.Controls.Clear();
             FileInfo zedInfo = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "ZedGraph.dll");
@@ -474,11 +402,11 @@ namespace Fishing
             }
             else
             {
-                if (dataGrid.RowCount > 0) drawLines();
+                if (dataGrid.RowCount > 0) DrawLines();
             }
         }
 
-        private void drawLines()
+        private void DrawLines()
         {
             try
             {
@@ -537,8 +465,10 @@ namespace Fishing
                     {
                         const double offset = 1.0;
                         PointPair pt = myCurve.Points[i];
-                        TextObj text = new TextObj(pt.Y.ToString(), pt.X, pt.Y + offset, CoordType.AxisXYScale, AlignH.Left, AlignV.Center);
-                        text.ZOrder = ZOrder.A_InFront;
+                        TextObj text = new TextObj(pt.Y.ToString(), pt.X, pt.Y + offset, CoordType.AxisXYScale, AlignH.Left, AlignV.Center)
+                        { 
+                            ZOrder = ZOrder.A_InFront 
+                        };
                         text.FontSpec.Size = 8;
                         text.FontSpec.Border.IsVisible = false;
                         text.FontSpec.Fill.IsVisible = false;
@@ -550,7 +480,7 @@ namespace Fishing
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
             finally
             {
@@ -558,7 +488,7 @@ namespace Fishing
             }
         }
 
-        void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             textBox1.Text = "";
             textBox1_1.Text = "";
@@ -594,7 +524,7 @@ namespace Fishing
             }
         }
 
-        void dataGridView1_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView1_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if ((e.RowIndex != -1) && (e.ColumnIndex != -1) && (e.Button == MouseButtons.Right))
             {
@@ -602,31 +532,31 @@ namespace Fishing
             }
             if ((e.RowIndex != -1) && (e.ColumnIndex != -1) && (e.Button == MouseButtons.Left) && (e.Clicks == 2))
             {
-                showCurrentReport(dataGridView1, "");
+                ShowCurrentReport(dataGridView1, "");
             }
         }
 
-        void recordDataGrid_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void RecordDataGrid_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if ((e.RowIndex != -1) && (e.ColumnIndex != -1) && (e.Button == MouseButtons.Right))
             {
                 recordDataGrid.CurrentCell = recordDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex];
             }
-            if ((e.RowIndex != -1) && (e.ColumnIndex != -1) && (e.Clicks == 2))
+            if ((e.RowIndex != -1) && (e.ColumnIndex != -1) && (e.ColumnIndex != 4) && (e.Clicks == 2))
             {
                 switch (e.ColumnIndex)
                 {
                     case 0:
-                        showCurrentReport(recordDataGrid, "lenght");
+                        ShowCurrentReport(recordDataGrid, "lenght");
                         break;
                     case 1:
-                        showCurrentReport(recordDataGrid, "lenght");
+                        ShowCurrentReport(recordDataGrid, "lenght");
                         break;
                     case 2:
-                        showCurrentReport(recordDataGrid, "weight");
+                        ShowCurrentReport(recordDataGrid, "weight");
                         break;
                     case 3:
-                        showCurrentReport(recordDataGrid, "number");
+                        ShowCurrentReport(recordDataGrid, "number");
                         break;
                     case 4:
                         foreach (Control ctrl in splitContainer1.Panel1.Controls)
@@ -638,18 +568,18 @@ namespace Fishing
                         }
                         comboBox2.SelectedItem = recordDataGrid[0, e.RowIndex].Value.ToString();
                         tabControl1.SelectedTab = queryTabPage;
-                        fillQuerry();
+                        FillQuerry();
                         break;
                 }
             }
         }
 
-        void recordTabPage_Enter(object sender, EventArgs e)
+        private void RecordTabPage_Enter(object sender, EventArgs e)
         {
-            fillRecord();
+            FillRecord();
         }
 
-        private void fillRecord()
+        private void FillRecord()
         {
             try
             {
@@ -663,7 +593,7 @@ namespace Fishing
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
             finally
             {
@@ -672,19 +602,21 @@ namespace Fishing
             recordDataGrid.Columns["Рыба"].Visible = false;
         }
 
-        void restoreItem_Click(object sender, EventArgs e)
+        void RestoreItem_Click(object sender, EventArgs e)
         {
             openFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory + "backup";
             openFileDialog.ShowDialog();
         }
 
-        void backupItem_Click(object sender, EventArgs e)
+        private void BackupItem_Click(object sender, EventArgs e)
         {
             string bkPath = AppDomain.CurrentDomain.BaseDirectory + "\\backup\\backup_" + DateTime.Now.ToShortDateString() + ".mdb";
+            DirectoryInfo dir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "backup");
+            if(!dir.Exists) dir.Create();
             File.Copy(dbPath, bkPath, true);
             if ((Options.SendMail == true) && (Options.Mail != "") && (Options.Mail.Contains("@")) && (Options.Password != ""))
             {
-                Thread tr = new Thread(sendArchToMail);
+                Thread tr = new Thread(SendArchToMail);
                 tr.Start();
             }
             else
@@ -693,49 +625,43 @@ namespace Fishing
             }
         }
 
-        void dataGrid_KeyDown(object sender, KeyEventArgs e)
+        private void DataGrid_KeyDown(object sender, KeyEventArgs e)
         {
             if ((e.KeyCode == Keys.Enter) && (dataGrid.RowCount != 0))
             {
-                showCurrentReport(dataGrid, "");
+                ShowCurrentReport(dataGrid, "");
             }
         }
 
-        void addSnastItem_Click(object sender, EventArgs e)
+        private void AddSnastItem_Click(object sender, EventArgs e)
         {
             dir.Text = "Справочник спосбов ловли";
             dir.ShowDialog();
         }
 
-        void addFishItem_Click(object sender, EventArgs e)
+        private void AddFishItem_Click(object sender, EventArgs e)
         {
             dir.Text = "Справочник видов рыб";
             dir.ShowDialog();
         }
 
-        void addFishBaseItem_Click(object sender, EventArgs e)
-        {
-            dir.Text = "Справочник рыболовных баз";
-            dir.ShowDialog();
-        }
-
-        private void addVodoemItem_Click(object sender, EventArgs e)
+        private void AddVodoemItem_Click(object sender, EventArgs e)
         {
             dir.Text = "Справочник мест ловли";
             dir.ShowDialog();
         }
 
-        void newReportItem_Click(object sender, EventArgs e)
+        private void NewReportItem_Click(object sender, EventArgs e)
         {
             nRep.Text = "Отчет";
             nRep.ShowDialog();
         }
 
-        void myReportItem_Click(object sender, EventArgs e)
+        private void MyReportItem_Click(object sender, EventArgs e)
         {
             if (tabControl1.SelectedIndex == 0)
             {
-                fillDataGrid();
+                FillDataGrid();
             }
             else
             {
@@ -743,12 +669,12 @@ namespace Fishing
             }
         }
 
-        void yearListBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void YearListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            fillDataGrid();
+            FillDataGrid();
         }
 
-        private void getYears()
+        private void GetYears()
         {
             dataGrid.Visible = true;
             yearListBox.Items.Clear();
@@ -767,7 +693,7 @@ namespace Fishing
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
             finally
             {
@@ -793,7 +719,7 @@ namespace Fishing
             tabControl1.SelectedIndex = 0;
         }
 
-        private void fillDataGrid()
+        private void FillDataGrid()
         {
             string year = DateTime.Today.Year.ToString();
             if (yearListBox.SelectedIndex != -1) year = yearListBox.SelectedItem.ToString();
@@ -812,7 +738,7 @@ namespace Fishing
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
             finally
             {
@@ -857,7 +783,7 @@ namespace Fishing
             }
         }
 
-        private void differentColors(DataGridView obj2)
+        private void DifferentColors(DataGridView obj2)
         {
             //Выделение отчетов разным цветом
             for (int h = 0; h < obj2.Rows.Count; h++)
@@ -894,7 +820,7 @@ namespace Fishing
             this.ActiveControl = obj2;
         }
 
-        void dataGrid_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGrid_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if ((e.RowIndex != -1) && (e.ColumnIndex != -1) && (e.Button == MouseButtons.Right))
             {
@@ -912,11 +838,11 @@ namespace Fishing
             }
             if ((e.RowIndex != -1) && (e.ColumnIndex != -1) && (e.Button == MouseButtons.Left) && (e.Clicks == 2))
             {
-                showCurrentReport(dataGrid, "");
+                ShowCurrentReport(dataGrid, "");
             }
         }
 
-        void nRep_FormClosing(object sender, FormClosingEventArgs e)
+        private void NRep_FormClosing(object sender, FormClosingEventArgs e)
         {
             yearFromNR = NewReport.CurrentDate;
             if (yearFromNR != "") yearFromNR = Convert.ToDateTime(NewReport.CurrentDate).Year.ToString();
@@ -924,22 +850,22 @@ namespace Fishing
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
-                    getYears();
+                    GetYears();
                     obj = dataGrid;
                     break;
                 case 1:
-                    fillQuerry();
+                    FillQuerry();
                     obj = dataGridView1;
                     break;
                 case 2:
-                    fillRecord();
+                    FillRecord();
                     obj = recordDataGrid;
                     break;
             }
-            if (tabControl1.SelectedIndex != 3) setCurrentCell(obj);
+            if (tabControl1.SelectedIndex != 3) SetCurrentCell(obj);
         }
 
-        private void setCurrentCell(DataGridView obj)
+        private void SetCurrentCell(DataGridView obj)
         {
             int rowCount = obj.Rows.Count;
             if (rowCount != 0)
@@ -955,7 +881,7 @@ namespace Fishing
             }
         }
 
-        private void showCurrentReport(DataGridView obj, string records)
+        private void ShowCurrentReport(DataGridView obj, string records)
         {
             if (records == "")
             {
@@ -1001,7 +927,7 @@ namespace Fishing
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
-                        writeErrors(ex.ToString());
+                        WriteErrors(ex.ToString());
                     }
                     finally
                     {
@@ -1012,23 +938,23 @@ namespace Fishing
             }
         }
 
-        private void writeErrors(string error)
+        private void WriteErrors(string error)
         {
             string errors = "**********************" + DateTime.Now.Date.ToString().Replace("0:00:00", "") + " " + DateTime.Now.TimeOfDay + "*********************\n";
             errors += error + "\n***********************************************************************\n\n";
-            StreamWriter writer = new StreamWriter(errPath, true, Encoding.UTF8);
+            StreamWriter writer = new StreamWriter(ERRPATH, true, Encoding.UTF8);
             writer.Write(errors);
             writer.Flush();
             writer.Close();
         }
 
-        void addReportToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddReportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             nRep.Text = "Отчет";
             nRep.ShowDialog();
         }
 
-        void deleteReportToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteReportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openedRow = dataGrid.CurrentRow.Index;
             if (MessageBox.Show("Действительно хотите удалить отчет?", "Подтверждение удаления", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -1042,7 +968,7 @@ namespace Fishing
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    writeErrors(ex.ToString());
+                    WriteErrors(ex.ToString());
                 }
                 finally
                 {
@@ -1057,19 +983,19 @@ namespace Fishing
                         }
                         else
                         {
-                            getYears();
+                            GetYears();
                         }
                     }
                     else
                     {
-                        fillDataGrid();
-                        setCurrentCell(dataGrid);
+                        FillDataGrid();
+                        SetCurrentCell(dataGrid);
                     }
                 }
             }
         }
 
-        private void sendArchToMail()
+        private void SendArchToMail()
         {
             string archBackupPath = AppDomain.CurrentDomain.BaseDirectory + "\\backup\\backup_" + DateTime.Now.ToShortDateString() + ".7z";
             try
@@ -1082,19 +1008,20 @@ namespace Fishing
                 proc.WaitForExit();
                 proc.Close();
                 string[] loginsmtp = Options.Mail.Split('@');
-                SmtpClient Smtp = new SmtpClient("smtp." + loginsmtp[1]);
-                Smtp.UseDefaultCredentials = false;
-                NetworkCredential NetworkCred = new NetworkCredential();
-                NetworkCred.UserName = loginsmtp[0];
-                NetworkCred.Password = Options.Password;
+                SmtpClient Smtp = new SmtpClient("smtp." + loginsmtp[1])
+                {
+                    UseDefaultCredentials = false,
+                    EnableSsl = true
+                };
+                NetworkCredential NetworkCred = new NetworkCredential
+                {
+                    UserName = loginsmtp[0],
+                    Password = Options.Password
+                };
                 Smtp.Credentials = NetworkCred;
                 Smtp.Port = 25;
                 Smtp.EnableSsl = true;
-                MailMessage Message = new MailMessage();
-                Message.From = new MailAddress(Options.Mail);
-                Message.To.Add(new MailAddress(Options.Mail));
-                Message.Subject = "Backup программы Fishing от " + DateTime.Now.ToShortDateString();
-                Message.Body = "Сообщение";
+                MailMessage Message = new MailMessage(Options.Mail, Options.Mail, "Backup программы Fishing от " + DateTime.Now.ToShortDateString(), "Сообщение");
                 Attachment attach = new Attachment(archBackupPath, MediaTypeNames.Application.Octet);
                 Message.Attachments.Add(attach);
                 Smtp.Send(Message);
@@ -1103,14 +1030,13 @@ namespace Fishing
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
         }
 
-        private void openFileDialog_FileOk(object sender, CancelEventArgs e)
+        private void OpenFileDialog_FileOk(object sender, CancelEventArgs e)
         {
-            string restorePath = "";
-            restorePath = openFileDialog.FileName;
+            string restorePath = openFileDialog.FileName;
             FileInfo fl2 = new FileInfo(restorePath);
             if (restorePath != dbPath)
             {
@@ -1120,15 +1046,14 @@ namespace Fishing
                 backupItem.Enabled = true;
                 spravMenu.Enabled = true;
                 tabControl1.Enabled = true;
-                baseLoad();
+                BaseLoad();
             }
             else
             {
                 MessageBox.Show("Это рабочая база. Укажите BACKUP!");
             }
         }
-
-        private void fillDict()
+        private void FillDict()
         {
             try
             {
@@ -1138,16 +1063,13 @@ namespace Fishing
                 OleDbDataAdapter adapter = new OleDbDataAdapter(myOleDbCommand);
                 adapter.Fill(ds);
                 int fnt = ds.Tables[0].Rows.Count;
-                FishnamesTable = new string[fnt];
-                FishnamesID = new string[fnt];
+                FishnameTable = new string[fnt];
+                FishnameID = new string[fnt];
                 for (int i = 0; i < fnt; i++)
                 {
-                    FishnamesID.SetValue(ds.Tables[0].Rows[i].ItemArray[0].ToString(), i);
-                    FishnamesTable.SetValue(ds.Tables[0].Rows[i].ItemArray[1].ToString(), i);
+                    FishnameID.SetValue(ds.Tables[0].Rows[i].ItemArray[0].ToString(), i);
+                    FishnameTable.SetValue(ds.Tables[0].Rows[i].ItemArray[1].ToString(), i);
                 }
-                //comboBox2.Items.Add("");
-                //comboBox2.Items.AddRange(FishnamesTable);
-                /////
                 myOleDbCommand.CommandText = "SELECT id,name FROM snasti ORDER BY name";
                 ds.Clear();
                 adapter.Fill(ds);
@@ -1159,21 +1081,6 @@ namespace Fishing
                     SnastiID.SetValue(ds.Tables[0].Rows[i].ItemArray[0].ToString(), i);
                     SnastiTable.SetValue(ds.Tables[0].Rows[i].ItemArray[1].ToString(), i);
                 }
-                //comboBox7.Items.Add("");
-                //comboBox7.Items.AddRange(SnastiTable);
-                /////
-                myOleDbCommand.CommandText = "SELECT name FROM fishbase ORDER BY name";
-                ds.Clear();
-                adapter.Fill(ds);
-                int fbt = ds.Tables[0].Rows.Count;
-                FishbaseTable = new string[fbt];
-                for (int i = 0; i < fbt; i++)
-                {
-                    FishbaseTable.SetValue(ds.Tables[0].Rows[i].ItemArray[1].ToString(), i);
-                }
-                //comboBox10.Items.Add("");
-                //comboBox10.Items.AddRange(FishbaseTable);
-                /////
                 myOleDbCommand.CommandText = "SELECT name FROM region";
                 ds.Clear();
                 adapter.Fill(ds);
@@ -1183,9 +1090,6 @@ namespace Fishing
                 {
                     RegionTable.SetValue(ds.Tables[0].Rows[i].ItemArray[1].ToString(), i);
                 }
-                //comboBox8.Items.Add("");
-                //comboBox8.Items.AddRange(RegionTable);
-                /////
                 myOleDbCommand.CommandText = "SELECT id,name FROM places ORDER BY name";
                 ds.Clear();
                 adapter.Fill(ds);
@@ -1197,9 +1101,6 @@ namespace Fishing
                     VodoemID.SetValue(ds.Tables[0].Rows[i].ItemArray[0].ToString(), i);
                     VodoemTable.SetValue(ds.Tables[0].Rows[i].ItemArray[1].ToString(), i);
                 }
-                //comboBox9.Items.Add("");
-                //comboBox9.Items.AddRange(VodoemTable);
-                ///// getOptions
                 myOleDbCommand.CommandText = "SELECT * FROM options";
                 DataSet ds2 = new DataSet();
                 OleDbDataAdapter adapter2 = new OleDbDataAdapter(myOleDbCommand);
@@ -1212,7 +1113,7 @@ namespace Fishing
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
             finally
             {
@@ -1220,17 +1121,14 @@ namespace Fishing
             }
         }
 
-        private void fillComboBoxes()
+        private void FillComboBoxes()
         {
             comboBox2.Items.Clear();
             comboBox2.Items.Add("");
-            comboBox2.Items.AddRange(FishnamesTable);
+            comboBox2.Items.AddRange(FishnameTable);
             comboBox7.Items.Clear();
             comboBox7.Items.Add("");
             comboBox7.Items.AddRange(SnastiTable);
-            comboBox10.Items.Clear();
-            comboBox10.Items.Add("");
-            comboBox10.Items.AddRange(FishbaseTable);
             comboBox8.Items.Clear();
             comboBox8.Items.Add("");
             comboBox8.Items.AddRange(RegionTable);
@@ -1239,14 +1137,13 @@ namespace Fishing
             comboBox9.Items.AddRange(VodoemTable);
         }
 
-        private void showByQueryButton_Click(object sender, EventArgs e)
+        private void ShowByQueryButton_Click(object sender, EventArgs e)
         {
-            fillQuerry();
+            FillQuerry();
         }
 
-        private void fillQuerry()
+        private void FillQuerry()
         {
-            //string megaQuery = "SELECT date AS Дата,fishnames.name AS `Рыба`,number AS Количество,lenght AS Длина,weight AS Вес,totalweight AS `Общий вес`,snasti.name AS `Снасть`,places.name AS `Водоем`,region AS Регион,bazaotdyha AS База,fishers AS `У других`,moon AS Луна,time AS `Время дня`,rain AS Осадки,wind AS Ветер,direction AS Направление,temperature AS Температура,pressure AS Давление," +
             string megaQuery = "SELECT TOP 500 [Дата],fishnames.name AS `Рыба`,[Количество],[Длина],[Вес],[Общий вес],snasti.name AS `Снасть`,places.name AS `Водоем`,[Регион],[Время дня],[Осадки],[Ветер],[Направление],[Температура],[Давление],[Луна],[У других],id2,[Координаты] " +
                 "FROM fishing,fishnames,snasti,places " +
                 "WHERE fishing.[Рыба] = fishnames.id AND fishing.[Снасть] = snasti.id AND fishing.[Водоем] = places.id AND ";
@@ -1514,17 +1411,17 @@ namespace Fishing
                 OleDbDataAdapter adapter = new OleDbDataAdapter(myOleDbCommand);
                 adapter.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
-                dataGridView1.Columns["Координаты"].Visible = false;
+                dataGridView1.Columns["Координаты"].Visible = true;
                 dataGridView1.Columns["id2"].Visible = false;
                 findLabel.Text = "Найдено: " + ds.Tables[0].Rows.Count;
-                showHideByChecked();
-                differentColors(dataGridView1);
+                ShowHideByChecked();
+                DifferentColors(dataGridView1);
                 if (ds.Tables[0].Rows.Count == 500) MessageBox.Show("Объем данных слишком велик, показаны последние 500 записей");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
             finally
             {
@@ -1532,7 +1429,7 @@ namespace Fishing
             }
         }
 
-        void showHideByChecked()
+        void ShowHideByChecked()
         {
             foreach (Control ctrl in splitContainer1.Panel1.Controls)
             {
@@ -1550,7 +1447,7 @@ namespace Fishing
             }
         }
 
-        private void checkBox19_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox19_CheckedChanged(object sender, EventArgs e)
         {
             Control.ControlCollection ctrl = splitContainer1.Panel1.Controls;
             for (int i = 0; i < ctrl.Count; i++)
@@ -1572,30 +1469,29 @@ namespace Fishing
             }
         }
 
-        private void fotoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void FotoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fotoShow(dataGrid);
+            FotoShow(dataGrid);
         }
 
-        private void fotoShow(DataGridView obj)
+        private void FotoShow(DataGridView obj)
         {
             string etad = obj["id2", obj.CurrentCell.RowIndex].Value.ToString().Remove(8);
-            string dirPath = AppDomain.CurrentDomain.BaseDirectory + "\\foto\\" + etad;
             fotoList.Text = etad;
             fotoList.ShowDialog();
         }
 
-        private void aboutItem_Click(object sender, EventArgs e)
+        private void AboutItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(ProductName + " версия " + ProductVersion + "\nДанная версия является бесплатной\n\u00a9 2008-2019 " + CompanyName + "\nВсе права защищены\ne-mail: fishingsetup@yandex.ru", "О программе " + ProductName);
+            MessageBox.Show(ProductName + " версия " + ProductVersion + "\nДанная версия является бесплатной\n\u00a9 2008-2022 " + CompanyName + "\nВсе права защищены\ne-mail: fishingsetup@yandex.ru", "О программе " + ProductName);
         }
 
-        private void optionsItem_Click(object sender, EventArgs e)
+        private void OptionsItem_Click(object sender, EventArgs e)
         {
             opt.ShowDialog();
         }
 
-        private void helpItem_Click(object sender, EventArgs e)
+        private void HelpItem_Click(object sender, EventArgs e)
         {
             Process proc2 = new Process();
             proc2.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + "\\help.chm";
@@ -1603,7 +1499,7 @@ namespace Fishing
             proc2.Start();
         }
 
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             nRep.Text = "Отчет";
             NewReport.CurrentID = "";
@@ -1614,14 +1510,14 @@ namespace Fishing
             nRep.ShowDialog();
         }
 
-        private void remakeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RemakeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            showCurrentReport(dataGrid, "");
+            ShowCurrentReport(dataGrid, "");
         }
 
-        private void fotoOnQueryStripMenuItem_Click(object sender, EventArgs e)
+        private void FotoOnQueryStripMenuItem_Click(object sender, EventArgs e)
         {
-            fotoShow(dataGridView1);
+            FotoShow(dataGridView1);
         }
     }
 }

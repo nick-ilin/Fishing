@@ -56,7 +56,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(248, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "© Ильин Николай, 2019. Все права защищены.";
+            this.label2.Text = "© Ильин Николай, 2022. Все права защищены.";
             // 
             // label3
             // 
@@ -65,11 +65,11 @@
             this.label3.Font = new System.Drawing.Font("Times New Roman", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.Location = new System.Drawing.Point(89, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(237, 28);
+            this.label3.Size = new System.Drawing.Size(236, 28);
             this.label3.TabIndex = 3;
             this.label3.Text = "Рыболовный дневник";
             // 
-            // frmSplash
+            // FrmSplash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -82,7 +82,7 @@
             this.Controls.Add(this.lbStatusInfo);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "frmSplash";
+            this.Name = "FrmSplash";
             this.Opacity = 0.9D;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

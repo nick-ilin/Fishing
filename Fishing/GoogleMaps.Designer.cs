@@ -38,7 +38,8 @@
             this.mapBrowser.Margin = new System.Windows.Forms.Padding(2);
             this.mapBrowser.MinimumSize = new System.Drawing.Size(15, 16);
             this.mapBrowser.Name = "mapBrowser";
-            this.mapBrowser.Size = new System.Drawing.Size(832, 773);
+            this.mapBrowser.ScriptErrorsSuppressed = true;
+            this.mapBrowser.Size = new System.Drawing.Size(877, 777);
             this.mapBrowser.TabIndex = 0;
             // 
             // GoogleMaps
@@ -46,7 +47,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(832, 773);
+            this.ClientSize = new System.Drawing.Size(877, 777);
             this.Controls.Add(this.mapBrowser);
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(2);

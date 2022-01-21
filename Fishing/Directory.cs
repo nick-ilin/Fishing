@@ -11,14 +11,14 @@ namespace Fishing
 {
     public partial class Directory : Form
     {
-        private OleDbConnection myOleDbConnection;
-        private OleDbCommand myOleDbCommand;
-        string editValue      = "";
-        string queryDirectory = "";
-        string addToQuery     = "";
-        string dataBase       = "";
-        string errPath        = "errors.txt";
-        string dbPath         = AppDomain.CurrentDomain.BaseDirectory + "fishing.mdb";
+        private readonly OleDbConnection myOleDbConnection;
+        private readonly OleDbCommand myOleDbCommand;
+        private string queryDirectory = "";
+        private string addToQuery = "";
+        private string dataBase = "";
+        private const string ERRPATH = "errors.txt";
+        private readonly string editValue = "";
+        private readonly string dbPath = AppDomain.CurrentDomain.BaseDirectory + "fishing.mdb";
 
         public Directory()
         {
@@ -26,14 +26,14 @@ namespace Fishing
             string connectionString = "provider=Microsoft.Jet.OLEDB.4.0; data source=" + dbPath;
             myOleDbConnection = new OleDbConnection(connectionString);
             myOleDbCommand = myOleDbConnection.CreateCommand();
-            dataGridFishes.CellEndEdit += new DataGridViewCellEventHandler(dataGridFishes_CellEndEdit);
-            dataGridFishes.CellMouseUp += new DataGridViewCellMouseEventHandler(dataGridFishes_CellMouseUp);
-            delToolStripMenuItem.Click += new EventHandler(delToolStripMenuItem_Click);
+            dataGridFishes.CellEndEdit += new DataGridViewCellEventHandler(DataGridFishes_CellEndEdit);
+            dataGridFishes.CellMouseUp += new DataGridViewCellMouseEventHandler(DataGridFishes_CellMouseUp);
+            delToolStripMenuItem.Click += new EventHandler(DelToolStripMenuItem_Click);
             this.Shown += new EventHandler(Directory_Shown);
             this.KeyDown += new KeyEventHandler(Directory_KeyDown);
         }
 
-        void Directory_KeyDown(object sender, KeyEventArgs e)
+        private void Directory_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
@@ -41,10 +41,10 @@ namespace Fishing
             }
         }
 
-        void dataGridFishes_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void DataGridFishes_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             TextInfo ti = Thread.CurrentThread.CurrentCulture.TextInfo;
-            int id = 0;
+            int id;
             string currentValue = "";
             string currentID = "";
             try
@@ -66,7 +66,7 @@ namespace Fishing
                     if (currentValue != "")
                     {
                         queryDirectory = "INSERT INTO " + dataBase + " ([name]) VALUES (\"" + currentValue + "\")";
-                        openConnection();
+                        OpenConnection();
                     }
                 }
                 else
@@ -79,7 +79,7 @@ namespace Fishing
                     else
                     {
                         queryDirectory = "UPDATE " + dataBase + " SET name = \"" + currentValue + "\" WHERE id = " + currentID;
-                        openConnection();
+                        OpenConnection();
                         for (int n = 0; n < dataGridFishes.RowCount - 1; n++)
                         {
                             if (dataGridFishes[1, n].Value.ToString() == currentValue) id = n;
@@ -90,16 +90,16 @@ namespace Fishing
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
             finally
             {
                 myOleDbConnection.Close();
-                renew();
+                Renew();
             }
         }
 
-        void Directory_Shown(object sender, EventArgs e)
+        private void Directory_Shown(object sender, EventArgs e)
         {
             switch (this.Text)
             {
@@ -120,10 +120,10 @@ namespace Fishing
                     addToQuery = "Водоем";
                     break;
             }
-            renew();
+            Renew();
         }
 
-        public void renew()
+        private void Renew()
         {
             try
             {
@@ -143,7 +143,7 @@ namespace Fishing
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
             finally
             {
@@ -151,7 +151,7 @@ namespace Fishing
             }
         }
 
-        void dataGridFishes_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridFishes_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if ((e.RowIndex != -1) && (e.ColumnIndex != -1) && (e.Button == MouseButtons.Right))
             {
@@ -159,10 +159,10 @@ namespace Fishing
             }
         }
 
-        void delToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string currentID = dataGridFishes[0, dataGridFishes.CurrentRow.Index].Value.ToString();
-            int countofIds = checkIDinFishing(currentID);
+            int countofIds = CheckIDinFishing(currentID);
             if (countofIds > 0)
             {
                 MessageBox.Show("Данная запись имеется в " + countofIds + " отчетах о рыбалке.\nУдалите отчеты, содержащие эту запись");
@@ -170,12 +170,12 @@ namespace Fishing
             else
             {
                 queryDirectory = "DELETE FROM " + dataBase + " WHERE id = " + currentID;
-                openConnection();
+                OpenConnection();
             }
             dataGridFishes.CurrentCell = dataGridFishes[1, dataGridFishes.RowCount - 1];
         }
 
-        private int checkIDinFishing(string id)
+        private int CheckIDinFishing(string id)
         {
             int countOfIDs = 999999;
             try
@@ -190,7 +190,7 @@ namespace Fishing
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
             finally
             {
@@ -199,7 +199,7 @@ namespace Fishing
             return countOfIDs;
         }
 
-        public void openConnection()
+        private void OpenConnection()
         {
             try
             {
@@ -210,20 +210,20 @@ namespace Fishing
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
             finally
             {
                 myOleDbConnection.Close();
-                renew();
+                Renew();
             }
         }
 
-        private void writeErrors(string error)
+        private void WriteErrors(string error)
         {
             string errors = "**********************" + DateTime.Now.Date.ToString().Replace("0:00:00", "") + " " + DateTime.Now.TimeOfDay + "*********************\n";
             errors += error + "\n***********************************************************************\n\n";
-            StreamWriter writer = new StreamWriter(errPath, true, Encoding.UTF8);
+            StreamWriter writer = new StreamWriter(ERRPATH, true, Encoding.UTF8);
             writer.Write(errors);
             writer.Flush();
             writer.Close();

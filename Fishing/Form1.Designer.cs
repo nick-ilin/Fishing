@@ -52,6 +52,9 @@ namespace Fishing
             this.recordDataGrid = new System.Windows.Forms.DataGridView();
             this.queryTabPage = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.textBox1 = new System.Windows.Forms.DateTimePicker();
+            this.textBox1_1 = new System.Windows.Forms.DateTimePicker();
+            this.radiousLabel = new System.Windows.Forms.Label();
             this.radiousComboBox = new System.Windows.Forms.ComboBox();
             this.checkBox20 = new System.Windows.Forms.CheckBox();
             this.comboBox20 = new System.Windows.Forms.ComboBox();
@@ -93,8 +96,6 @@ namespace Fishing
             this.textBox3 = new System.Windows.Forms.MaskedTextBox();
             this.textBox4 = new System.Windows.Forms.MaskedTextBox();
             this.textBox5 = new System.Windows.Forms.MaskedTextBox();
-            this.textBox1_1 = new System.Windows.Forms.MaskedTextBox();
-            this.textBox1 = new System.Windows.Forms.MaskedTextBox();
             this.showByQueryButton = new System.Windows.Forms.Button();
             this.comboBox10 = new System.Windows.Forms.ComboBox();
             this.comboBox8 = new System.Windows.Forms.ComboBox();
@@ -125,19 +126,18 @@ namespace Fishing
             this.addFishItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSnastItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addVodoemItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addFishBaseItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.helpItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.yearListBox = new System.Windows.Forms.ComboBox();
-            this.radiousLabel = new System.Windows.Forms.Label();
             this.reportMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.recordTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.recordDataGrid)).BeginInit();
             this.queryTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -162,70 +162,70 @@ namespace Fishing
             this.toolStripSeparator2,
             this.fotoToolStripMenuItem});
             this.reportMenuStrip.Name = "reportMenuStrip";
-            this.reportMenuStrip.Size = new System.Drawing.Size(213, 170);
+            this.reportMenuStrip.Size = new System.Drawing.Size(201, 170);
             // 
             // addReportToolStripMenuItem
             // 
             this.addReportToolStripMenuItem.Name = "addReportToolStripMenuItem";
-            this.addReportToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.addReportToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.addReportToolStripMenuItem.Text = "Добавить отчет";
-            this.addReportToolStripMenuItem.Click += new System.EventHandler(this.addReportToolStripMenuItem_Click);
+            this.addReportToolStripMenuItem.Click += new System.EventHandler(this.AddReportToolStripMenuItem_Click);
             // 
             // remakeToolStripMenuItem
             // 
             this.remakeToolStripMenuItem.Name = "remakeToolStripMenuItem";
-            this.remakeToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.remakeToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.remakeToolStripMenuItem.Text = "Изменить отчет";
-            this.remakeToolStripMenuItem.Click += new System.EventHandler(this.remakeToolStripMenuItem_Click);
+            this.remakeToolStripMenuItem.Click += new System.EventHandler(this.RemakeToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.copyToolStripMenuItem.Text = "Копировать отчет";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.CopyToolStripMenuItem_Click);
             // 
             // deleteReportToolStripMenuItem
             // 
             this.deleteReportToolStripMenuItem.Name = "deleteReportToolStripMenuItem";
-            this.deleteReportToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.deleteReportToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.deleteReportToolStripMenuItem.Text = "Удалить отчет";
-            this.deleteReportToolStripMenuItem.Click += new System.EventHandler(this.deleteReportToolStripMenuItem_Click);
+            this.deleteReportToolStripMenuItem.Click += new System.EventHandler(this.DeleteReportToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(197, 6);
             // 
             // showMapToolStripMenuItem
             // 
             this.showMapToolStripMenuItem.Name = "showMapToolStripMenuItem";
-            this.showMapToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.showMapToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.showMapToolStripMenuItem.Text = "Показать на карте";
             // 
             // showAllDayFishingToolStripMenuItem
             // 
             this.showAllDayFishingToolStripMenuItem.Name = "showAllDayFishingToolStripMenuItem";
-            this.showAllDayFishingToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.showAllDayFishingToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.showAllDayFishingToolStripMenuItem.Text = "Показать всю рыбалку";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(209, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(197, 6);
             // 
             // fotoToolStripMenuItem
             // 
             this.fotoToolStripMenuItem.Name = "fotoToolStripMenuItem";
-            this.fotoToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.fotoToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.fotoToolStripMenuItem.Text = "Фотографии";
-            this.fotoToolStripMenuItem.Click += new System.EventHandler(this.fotoToolStripMenuItem_Click);
+            this.fotoToolStripMenuItem.Click += new System.EventHandler(this.FotoToolStripMenuItem_Click);
             // 
             // openFileDialog
             // 
             this.openFileDialog.DefaultExt = "mdb";
             this.openFileDialog.Filter = "MDB files (*.mdb)|*.mdb";
-            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
+            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenFileDialog_FileOk);
             // 
             // dataGrid
             // 
@@ -265,7 +265,7 @@ namespace Fishing
             this.dataGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGrid.RowTemplate.Height = 24;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(750, 689);
+            this.dataGrid.Size = new System.Drawing.Size(885, 689);
             this.dataGrid.TabIndex = 1;
             this.dataGrid.Visible = false;
             // 
@@ -275,7 +275,7 @@ namespace Fishing
             this.chartTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.chartTabPage.Name = "chartTabPage";
             this.chartTabPage.Padding = new System.Windows.Forms.Padding(2);
-            this.chartTabPage.Size = new System.Drawing.Size(754, 693);
+            this.chartTabPage.Size = new System.Drawing.Size(889, 693);
             this.chartTabPage.TabIndex = 3;
             this.chartTabPage.Text = "График";
             this.chartTabPage.UseVisualStyleBackColor = true;
@@ -286,7 +286,7 @@ namespace Fishing
             this.recordTabPage.Location = new System.Drawing.Point(4, 22);
             this.recordTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.recordTabPage.Name = "recordTabPage";
-            this.recordTabPage.Size = new System.Drawing.Size(754, 693);
+            this.recordTabPage.Size = new System.Drawing.Size(889, 693);
             this.recordTabPage.TabIndex = 2;
             this.recordTabPage.Text = "Рекорды";
             this.recordTabPage.UseVisualStyleBackColor = true;
@@ -315,7 +315,7 @@ namespace Fishing
             this.recordDataGrid.Name = "recordDataGrid";
             this.recordDataGrid.ReadOnly = true;
             this.recordDataGrid.RowTemplate.Height = 24;
-            this.recordDataGrid.Size = new System.Drawing.Size(754, 693);
+            this.recordDataGrid.Size = new System.Drawing.Size(889, 693);
             this.recordDataGrid.TabIndex = 0;
             // 
             // queryTabPage
@@ -325,7 +325,7 @@ namespace Fishing
             this.queryTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.queryTabPage.Name = "queryTabPage";
             this.queryTabPage.Padding = new System.Windows.Forms.Padding(2);
-            this.queryTabPage.Size = new System.Drawing.Size(754, 693);
+            this.queryTabPage.Size = new System.Drawing.Size(889, 693);
             this.queryTabPage.TabIndex = 1;
             this.queryTabPage.Text = "Выборки";
             this.queryTabPage.UseVisualStyleBackColor = true;
@@ -339,6 +339,8 @@ namespace Fishing
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.textBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.textBox1_1);
             this.splitContainer1.Panel1.Controls.Add(this.radiousLabel);
             this.splitContainer1.Panel1.Controls.Add(this.radiousComboBox);
             this.splitContainer1.Panel1.Controls.Add(this.checkBox20);
@@ -381,8 +383,6 @@ namespace Fishing
             this.splitContainer1.Panel1.Controls.Add(this.textBox3);
             this.splitContainer1.Panel1.Controls.Add(this.textBox4);
             this.splitContainer1.Panel1.Controls.Add(this.textBox5);
-            this.splitContainer1.Panel1.Controls.Add(this.textBox1_1);
-            this.splitContainer1.Panel1.Controls.Add(this.textBox1);
             this.splitContainer1.Panel1.Controls.Add(this.showByQueryButton);
             this.splitContainer1.Panel1.Controls.Add(this.comboBox10);
             this.splitContainer1.Panel1.Controls.Add(this.comboBox8);
@@ -398,9 +398,37 @@ namespace Fishing
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer1.Size = new System.Drawing.Size(750, 689);
-            this.splitContainer1.SplitterDistance = 353;
+            this.splitContainer1.Size = new System.Drawing.Size(885, 689);
+            this.splitContainer1.SplitterDistance = 374;
             this.splitContainer1.TabIndex = 50;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.textBox1.Location = new System.Drawing.Point(184, 5);
+            this.textBox1.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(85, 21);
+            this.textBox1.TabIndex = 2003;
+            // 
+            // textBox1_1
+            // 
+            this.textBox1_1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.textBox1_1.Location = new System.Drawing.Point(277, 5);
+            this.textBox1_1.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
+            this.textBox1_1.Name = "textBox1_1";
+            this.textBox1_1.Size = new System.Drawing.Size(85, 21);
+            this.textBox1_1.TabIndex = 2002;
+            this.textBox1_1.Visible = false;
+            // 
+            // radiousLabel
+            // 
+            this.radiousLabel.AutoSize = true;
+            this.radiousLabel.Location = new System.Drawing.Point(290, 526);
+            this.radiousLabel.Name = "radiousLabel";
+            this.radiousLabel.Size = new System.Drawing.Size(47, 15);
+            this.radiousLabel.TabIndex = 131;
+            this.radiousLabel.Text = "Радиус";
             // 
             // radiousComboBox
             // 
@@ -455,7 +483,7 @@ namespace Fishing
             this.comboBox20.Location = new System.Drawing.Point(103, 38);
             this.comboBox20.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox20.Name = "comboBox20";
-            this.comboBox20.Size = new System.Drawing.Size(157, 23);
+            this.comboBox20.Size = new System.Drawing.Size(166, 23);
             this.comboBox20.TabIndex = 128;
             // 
             // textBox18_1
@@ -542,7 +570,7 @@ namespace Fishing
             this.checkBox19.TabIndex = 122;
             this.checkBox19.Text = "Все";
             this.checkBox19.UseVisualStyleBackColor = true;
-            this.checkBox19.CheckedChanged += new System.EventHandler(this.checkBox19_CheckedChanged);
+            this.checkBox19.CheckedChanged += new System.EventHandler(this.CheckBox19_CheckedChanged);
             // 
             // comboBox17
             // 
@@ -577,7 +605,7 @@ namespace Fishing
             this.comboBox16.Location = new System.Drawing.Point(103, 544);
             this.comboBox16.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox16.Name = "comboBox16";
-            this.comboBox16.Size = new System.Drawing.Size(157, 23);
+            this.comboBox16.Size = new System.Drawing.Size(166, 23);
             this.comboBox16.TabIndex = 81;
             // 
             // checkBox18
@@ -809,7 +837,7 @@ namespace Fishing
             this.comboBox15.Location = new System.Drawing.Point(103, 510);
             this.comboBox15.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox15.Name = "comboBox15";
-            this.comboBox15.Size = new System.Drawing.Size(157, 23);
+            this.comboBox15.Size = new System.Drawing.Size(166, 23);
             this.comboBox15.TabIndex = 83;
             // 
             // comboBox14
@@ -830,7 +858,7 @@ namespace Fishing
             this.comboBox14.Location = new System.Drawing.Point(103, 474);
             this.comboBox14.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox14.Name = "comboBox14";
-            this.comboBox14.Size = new System.Drawing.Size(157, 23);
+            this.comboBox14.Size = new System.Drawing.Size(166, 23);
             this.comboBox14.TabIndex = 85;
             // 
             // comboBox13
@@ -846,7 +874,7 @@ namespace Fishing
             this.comboBox13.Location = new System.Drawing.Point(103, 439);
             this.comboBox13.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox13.Name = "comboBox13";
-            this.comboBox13.Size = new System.Drawing.Size(157, 23);
+            this.comboBox13.Size = new System.Drawing.Size(166, 23);
             this.comboBox13.TabIndex = 87;
             // 
             // comboBox12
@@ -862,7 +890,7 @@ namespace Fishing
             this.comboBox12.Location = new System.Drawing.Point(103, 403);
             this.comboBox12.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox12.Name = "comboBox12";
-            this.comboBox12.Size = new System.Drawing.Size(157, 23);
+            this.comboBox12.Size = new System.Drawing.Size(166, 23);
             this.comboBox12.TabIndex = 89;
             // 
             // comboBox11
@@ -878,7 +906,7 @@ namespace Fishing
             this.comboBox11.Location = new System.Drawing.Point(103, 368);
             this.comboBox11.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox11.Name = "comboBox11";
-            this.comboBox11.Size = new System.Drawing.Size(157, 23);
+            this.comboBox11.Size = new System.Drawing.Size(166, 23);
             this.comboBox11.TabIndex = 79;
             // 
             // comboBox9
@@ -888,7 +916,7 @@ namespace Fishing
             this.comboBox9.Location = new System.Drawing.Point(103, 299);
             this.comboBox9.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox9.Name = "comboBox9";
-            this.comboBox9.Size = new System.Drawing.Size(157, 23);
+            this.comboBox9.Size = new System.Drawing.Size(166, 23);
             this.comboBox9.TabIndex = 78;
             // 
             // comboBox1_1
@@ -899,7 +927,7 @@ namespace Fishing
             this.comboBox1_1.Location = new System.Drawing.Point(184, 5);
             this.comboBox1_1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1_1.Name = "comboBox1_1";
-            this.comboBox1_1.Size = new System.Drawing.Size(76, 23);
+            this.comboBox1_1.Size = new System.Drawing.Size(85, 23);
             this.comboBox1_1.TabIndex = 75;
             this.comboBox1_1.Visible = false;
             // 
@@ -914,7 +942,7 @@ namespace Fishing
             this.textBox6.Mask = "000000";
             this.textBox6.Name = "textBox6";
             this.textBox6.PromptChar = ' ';
-            this.textBox6.Size = new System.Drawing.Size(75, 21);
+            this.textBox6.Size = new System.Drawing.Size(84, 21);
             this.textBox6.SkipLiterals = false;
             this.textBox6.TabIndex = 70;
             this.textBox6.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
@@ -931,7 +959,7 @@ namespace Fishing
             this.textBox3.Mask = "0000";
             this.textBox3.Name = "textBox3";
             this.textBox3.PromptChar = ' ';
-            this.textBox3.Size = new System.Drawing.Size(75, 21);
+            this.textBox3.Size = new System.Drawing.Size(84, 21);
             this.textBox3.SkipLiterals = false;
             this.textBox3.TabIndex = 64;
             this.textBox3.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
@@ -948,7 +976,7 @@ namespace Fishing
             this.textBox4.Mask = "000";
             this.textBox4.Name = "textBox4";
             this.textBox4.PromptChar = ' ';
-            this.textBox4.Size = new System.Drawing.Size(75, 21);
+            this.textBox4.Size = new System.Drawing.Size(84, 21);
             this.textBox4.SkipLiterals = false;
             this.textBox4.TabIndex = 66;
             this.textBox4.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
@@ -965,50 +993,11 @@ namespace Fishing
             this.textBox5.Mask = "000000";
             this.textBox5.Name = "textBox5";
             this.textBox5.PromptChar = ' ';
-            this.textBox5.Size = new System.Drawing.Size(75, 21);
+            this.textBox5.Size = new System.Drawing.Size(84, 21);
             this.textBox5.SkipLiterals = false;
             this.textBox5.TabIndex = 68;
             this.textBox5.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.textBox5.ValidatingType = typeof(int);
-            // 
-            // textBox1_1
-            // 
-            this.textBox1_1.BackColor = System.Drawing.SystemColors.Window;
-            this.textBox1_1.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.IncludePromptAndLiterals;
-            this.textBox1_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1_1.HidePromptOnLeave = true;
-            this.textBox1_1.HideSelection = false;
-            this.textBox1_1.Location = new System.Drawing.Point(265, 7);
-            this.textBox1_1.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox1_1.Mask = "00/00/0000";
-            this.textBox1_1.Name = "textBox1_1";
-            this.textBox1_1.PromptChar = ' ';
-            this.textBox1_1.ReadOnly = true;
-            this.textBox1_1.Size = new System.Drawing.Size(75, 21);
-            this.textBox1_1.SkipLiterals = false;
-            this.textBox1_1.TabIndex = 61;
-            this.textBox1_1.TextMaskFormat = System.Windows.Forms.MaskFormat.IncludePromptAndLiterals;
-            this.textBox1_1.ValidatingType = typeof(System.DateTime);
-            this.textBox1_1.Visible = false;
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.textBox1.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.IncludePromptAndLiterals;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.HidePromptOnLeave = true;
-            this.textBox1.HideSelection = false;
-            this.textBox1.Location = new System.Drawing.Point(184, 7);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox1.Mask = "00/00/0000";
-            this.textBox1.Name = "textBox1";
-            this.textBox1.PromptChar = ' ';
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(75, 21);
-            this.textBox1.SkipLiterals = false;
-            this.textBox1.TabIndex = 60;
-            this.textBox1.TextMaskFormat = System.Windows.Forms.MaskFormat.IncludePromptAndLiterals;
-            this.textBox1.ValidatingType = typeof(System.DateTime);
             // 
             // showByQueryButton
             // 
@@ -1019,7 +1008,7 @@ namespace Fishing
             this.showByQueryButton.TabIndex = 74;
             this.showByQueryButton.Text = "Показать";
             this.showByQueryButton.UseVisualStyleBackColor = true;
-            this.showByQueryButton.Click += new System.EventHandler(this.showByQueryButton_Click);
+            this.showByQueryButton.Click += new System.EventHandler(this.ShowByQueryButton_Click);
             // 
             // comboBox10
             // 
@@ -1028,7 +1017,7 @@ namespace Fishing
             this.comboBox10.Location = new System.Drawing.Point(103, 333);
             this.comboBox10.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox10.Name = "comboBox10";
-            this.comboBox10.Size = new System.Drawing.Size(157, 23);
+            this.comboBox10.Size = new System.Drawing.Size(166, 23);
             this.comboBox10.TabIndex = 73;
             // 
             // comboBox8
@@ -1038,7 +1027,7 @@ namespace Fishing
             this.comboBox8.Location = new System.Drawing.Point(103, 266);
             this.comboBox8.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox8.Name = "comboBox8";
-            this.comboBox8.Size = new System.Drawing.Size(157, 23);
+            this.comboBox8.Size = new System.Drawing.Size(166, 23);
             this.comboBox8.TabIndex = 72;
             // 
             // comboBox7
@@ -1048,7 +1037,7 @@ namespace Fishing
             this.comboBox7.Location = new System.Drawing.Point(103, 104);
             this.comboBox7.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(157, 23);
+            this.comboBox7.Size = new System.Drawing.Size(166, 23);
             this.comboBox7.TabIndex = 71;
             // 
             // comboBox1
@@ -1132,11 +1121,12 @@ namespace Fishing
             // comboBox2
             // 
             this.comboBox2.AllowDrop = true;
+            this.comboBox2.DisplayMember = "Name";
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.Location = new System.Drawing.Point(103, 71);
             this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(157, 23);
+            this.comboBox2.Size = new System.Drawing.Size(166, 23);
             this.comboBox2.TabIndex = 62;
             // 
             // dataGridView1
@@ -1168,7 +1158,7 @@ namespace Fishing
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(393, 689);
+            this.dataGridView1.Size = new System.Drawing.Size(507, 689);
             this.dataGridView1.TabIndex = 42;
             // 
             // queryMenuStrip
@@ -1176,43 +1166,42 @@ namespace Fishing
             this.queryMenuStrip.Font = new System.Drawing.Font("Tahoma", 8.400001F);
             this.queryMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showToolStripMenuItem,
-            this.showAllToolStripMenuItem,
             this.showInRadiousToolStripMenuItem,
             this.toolStripSeparator3,
             this.fotoOnQueryStripMenuItem});
             this.queryMenuStrip.Name = "queryMenuStrip";
-            this.queryMenuStrip.Size = new System.Drawing.Size(296, 120);
+            this.queryMenuStrip.Size = new System.Drawing.Size(284, 98);
             // 
             // showToolStripMenuItem
             // 
             this.showToolStripMenuItem.Name = "showToolStripMenuItem";
-            this.showToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.showToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
             this.showToolStripMenuItem.Text = "Показать на карте";
             // 
             // showAllToolStripMenuItem
             // 
             this.showAllToolStripMenuItem.Name = "showAllToolStripMenuItem";
-            this.showAllToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.showAllToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
             this.showAllToolStripMenuItem.Text = "Показать всю рыбалку";
             // 
             // showInRadiousToolStripMenuItem
             // 
             this.showInRadiousToolStripMenuItem.Name = "showInRadiousToolStripMenuItem";
-            this.showInRadiousToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.showInRadiousToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
             this.showInRadiousToolStripMenuItem.Text = "Показать места в указанном радиусе";
-            this.showInRadiousToolStripMenuItem.Click += new System.EventHandler(this.showInRadiousToolStripMenuItem_Click);
+            this.showInRadiousToolStripMenuItem.Click += new System.EventHandler(this.ShowInRadiousToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(292, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(280, 6);
             // 
             // fotoOnQueryStripMenuItem
             // 
             this.fotoOnQueryStripMenuItem.Name = "fotoOnQueryStripMenuItem";
-            this.fotoOnQueryStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.fotoOnQueryStripMenuItem.Size = new System.Drawing.Size(283, 22);
             this.fotoOnQueryStripMenuItem.Text = "Фотографии";
-            this.fotoOnQueryStripMenuItem.Click += new System.EventHandler(this.fotoOnQueryStripMenuItem_Click);
+            this.fotoOnQueryStripMenuItem.Click += new System.EventHandler(this.FotoOnQueryStripMenuItem_Click);
             // 
             // reportTabPage
             // 
@@ -1222,7 +1211,7 @@ namespace Fishing
             this.reportTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.reportTabPage.Name = "reportTabPage";
             this.reportTabPage.Padding = new System.Windows.Forms.Padding(2);
-            this.reportTabPage.Size = new System.Drawing.Size(754, 693);
+            this.reportTabPage.Size = new System.Drawing.Size(889, 693);
             this.reportTabPage.TabIndex = 0;
             this.reportTabPage.Text = "Отчеты";
             this.reportTabPage.UseVisualStyleBackColor = true;
@@ -1247,7 +1236,7 @@ namespace Fishing
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(762, 719);
+            this.tabControl1.Size = new System.Drawing.Size(897, 719);
             this.tabControl1.TabIndex = 2;
             // 
             // fileMenu
@@ -1265,31 +1254,31 @@ namespace Fishing
             // 
             this.newReportItem.Name = "newReportItem";
             this.newReportItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newReportItem.Size = new System.Drawing.Size(212, 22);
+            this.newReportItem.Size = new System.Drawing.Size(220, 22);
             this.newReportItem.Text = "Добавить отчет";
-            this.newReportItem.Click += new System.EventHandler(this.newReportItem_Click);
+            this.newReportItem.Click += new System.EventHandler(this.NewReportItem_Click);
             // 
             // myReportItem
             // 
             this.myReportItem.Name = "myReportItem";
             this.myReportItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.myReportItem.Size = new System.Drawing.Size(212, 22);
+            this.myReportItem.Size = new System.Drawing.Size(220, 22);
             this.myReportItem.Text = "Мои отчеты";
-            this.myReportItem.Click += new System.EventHandler(this.myReportItem_Click);
+            this.myReportItem.Click += new System.EventHandler(this.MyReportItem_Click);
             // 
             // backupItem
             // 
             this.backupItem.Name = "backupItem";
-            this.backupItem.Size = new System.Drawing.Size(212, 22);
+            this.backupItem.Size = new System.Drawing.Size(220, 22);
             this.backupItem.Text = "Создать резервную копию";
-            this.backupItem.Click += new System.EventHandler(this.backupItem_Click);
+            this.backupItem.Click += new System.EventHandler(this.BackupItem_Click);
             // 
             // restoreItem
             // 
             this.restoreItem.Name = "restoreItem";
-            this.restoreItem.Size = new System.Drawing.Size(212, 22);
+            this.restoreItem.Size = new System.Drawing.Size(220, 22);
             this.restoreItem.Text = "Восстановить из ...";
-            this.restoreItem.Click += new System.EventHandler(this.restoreItem_Click);
+            this.restoreItem.Click += new System.EventHandler(this.RestoreItem_Click);
             // 
             // spravMenu
             // 
@@ -1297,7 +1286,7 @@ namespace Fishing
             this.spravMenuItem,
             this.optionsItem});
             this.spravMenu.Name = "spravMenu";
-            this.spravMenu.Size = new System.Drawing.Size(74, 20);
+            this.spravMenu.Size = new System.Drawing.Size(79, 20);
             this.spravMenu.Text = "Настройки";
             // 
             // spravMenuItem
@@ -1305,50 +1294,41 @@ namespace Fishing
             this.spravMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addFishItem,
             this.addSnastItem,
-            this.addVodoemItem,
-            this.addFishBaseItem});
+            this.addVodoemItem});
             this.spravMenuItem.Name = "spravMenuItem";
-            this.spravMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.spravMenuItem.Size = new System.Drawing.Size(203, 22);
             this.spravMenuItem.Text = "Справочники";
             // 
             // addFishItem
             // 
             this.addFishItem.Name = "addFishItem";
             this.addFishItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.addFishItem.Size = new System.Drawing.Size(190, 22);
+            this.addFishItem.Size = new System.Drawing.Size(181, 22);
             this.addFishItem.Text = "Виды рыб";
-            this.addFishItem.Click += new System.EventHandler(this.addFishItem_Click);
+            this.addFishItem.Click += new System.EventHandler(this.AddFishItem_Click);
             // 
             // addSnastItem
             // 
             this.addSnastItem.Name = "addSnastItem";
             this.addSnastItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.addSnastItem.Size = new System.Drawing.Size(190, 22);
+            this.addSnastItem.Size = new System.Drawing.Size(181, 22);
             this.addSnastItem.Text = "Способы ловли";
-            this.addSnastItem.Click += new System.EventHandler(this.addSnastItem_Click);
+            this.addSnastItem.Click += new System.EventHandler(this.AddSnastItem_Click);
             // 
             // addVodoemItem
             // 
             this.addVodoemItem.Name = "addVodoemItem";
             this.addVodoemItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.addVodoemItem.Size = new System.Drawing.Size(190, 22);
+            this.addVodoemItem.Size = new System.Drawing.Size(181, 22);
             this.addVodoemItem.Text = "Места ловли";
-            this.addVodoemItem.Click += new System.EventHandler(this.addVodoemItem_Click);
-            // 
-            // addFishBaseItem
-            // 
-            this.addFishBaseItem.Name = "addFishBaseItem";
-            this.addFishBaseItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.addFishBaseItem.Size = new System.Drawing.Size(190, 22);
-            this.addFishBaseItem.Text = "Рыболовные базы";
-            this.addFishBaseItem.Click += new System.EventHandler(this.addFishBaseItem_Click);
+            this.addVodoemItem.Click += new System.EventHandler(this.AddVodoemItem_Click);
             // 
             // optionsItem
             // 
             this.optionsItem.Name = "optionsItem";
-            this.optionsItem.Size = new System.Drawing.Size(194, 22);
+            this.optionsItem.Size = new System.Drawing.Size(203, 22);
             this.optionsItem.Text = "Настройки программы";
-            this.optionsItem.Click += new System.EventHandler(this.optionsItem_Click);
+            this.optionsItem.Click += new System.EventHandler(this.OptionsItem_Click);
             // 
             // helpMenu
             // 
@@ -1356,22 +1336,22 @@ namespace Fishing
             this.helpItem,
             this.aboutItem});
             this.helpMenu.Name = "helpMenu";
-            this.helpMenu.Size = new System.Drawing.Size(62, 20);
+            this.helpMenu.Size = new System.Drawing.Size(65, 20);
             this.helpMenu.Text = "Справка";
             // 
             // helpItem
             // 
             this.helpItem.Name = "helpItem";
-            this.helpItem.Size = new System.Drawing.Size(156, 22);
+            this.helpItem.Size = new System.Drawing.Size(161, 22);
             this.helpItem.Text = "Справка Fishing";
-            this.helpItem.Click += new System.EventHandler(this.helpItem_Click);
+            this.helpItem.Click += new System.EventHandler(this.HelpItem_Click);
             // 
             // aboutItem
             // 
             this.aboutItem.Name = "aboutItem";
-            this.aboutItem.Size = new System.Drawing.Size(156, 22);
+            this.aboutItem.Size = new System.Drawing.Size(161, 22);
             this.aboutItem.Text = "О программе";
-            this.aboutItem.Click += new System.EventHandler(this.aboutItem_Click);
+            this.aboutItem.Click += new System.EventHandler(this.AboutItem_Click);
             // 
             // menuStrip
             // 
@@ -1381,7 +1361,7 @@ namespace Fishing
             this.helpMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(762, 24);
+            this.menuStrip.Size = new System.Drawing.Size(897, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -1394,20 +1374,11 @@ namespace Fishing
             this.yearListBox.Size = new System.Drawing.Size(57, 21);
             this.yearListBox.TabIndex = 3;
             // 
-            // radiousLabel
-            // 
-            this.radiousLabel.AutoSize = true;
-            this.radiousLabel.Location = new System.Drawing.Point(290, 526);
-            this.radiousLabel.Name = "radiousLabel";
-            this.radiousLabel.Size = new System.Drawing.Size(47, 15);
-            this.radiousLabel.TabIndex = 131;
-            this.radiousLabel.Text = "Радиус";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(762, 743);
+            this.ClientSize = new System.Drawing.Size(897, 743);
             this.Controls.Add(this.yearListBox);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip);
@@ -1424,6 +1395,7 @@ namespace Fishing
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.queryMenuStrip.ResumeLayout(false);
@@ -1463,8 +1435,6 @@ namespace Fishing
         private System.Windows.Forms.MaskedTextBox textBox3;
         private System.Windows.Forms.MaskedTextBox textBox4;
         private System.Windows.Forms.MaskedTextBox textBox5;
-        private System.Windows.Forms.MaskedTextBox textBox1_1;
-        private System.Windows.Forms.MaskedTextBox textBox1;
         private System.Windows.Forms.Button showByQueryButton;
         private System.Windows.Forms.ComboBox comboBox10;
         private System.Windows.Forms.ComboBox comboBox8;
@@ -1514,7 +1484,6 @@ namespace Fishing
         private System.Windows.Forms.ToolStripMenuItem spravMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addFishItem;
         private System.Windows.Forms.ToolStripMenuItem addSnastItem;
-        private System.Windows.Forms.ToolStripMenuItem addFishBaseItem;
         private System.Windows.Forms.ToolStripMenuItem addVodoemItem;
         private System.Windows.Forms.ToolStripMenuItem optionsItem;
         private System.Windows.Forms.ToolStripMenuItem helpMenu;
@@ -1537,6 +1506,8 @@ namespace Fishing
         private System.Windows.Forms.ComboBox radiousComboBox;
         private System.Windows.Forms.ToolStripMenuItem showInRadiousToolStripMenuItem;
         private System.Windows.Forms.Label radiousLabel;
+        private System.Windows.Forms.DateTimePicker textBox1_1;
+        private System.Windows.Forms.DateTimePicker textBox1;
     }
 }
 

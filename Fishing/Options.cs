@@ -10,8 +10,8 @@ namespace Fishing
         private static bool _sendmail;
         private static string _mail;
         private static string _pass;
-        private OleDbConnection myOleDbConnection;
-        private OleDbCommand myOleDbCommand;
+        private readonly OleDbConnection myOleDbConnection;
+        private readonly OleDbCommand myOleDbCommand;
         public Options()
         {
             InitializeComponent();
@@ -19,9 +19,9 @@ namespace Fishing
             string connectionString = "provider=Microsoft.Jet.OLEDB.4.0; data source=" + dbPath;
             myOleDbConnection = new OleDbConnection(connectionString);
             myOleDbCommand = myOleDbConnection.CreateCommand();
-            sendmail.CheckedChanged += new EventHandler(sendToEmail_CheckedChanged);
+            sendmail.CheckedChanged += new EventHandler(SendToEmail_CheckedChanged);
             this.Shown += new EventHandler(Options_Shown);
-            this.FormClosing += new FormClosingEventHandler(options_FormClosing);
+            this.FormClosing += new FormClosingEventHandler(Options_FormClosing);
         }
 
         public static int MyRegion
@@ -76,8 +76,7 @@ namespace Fishing
             }
         }
 
-
-        void Options_Shown(object sender, EventArgs e)
+        private void Options_Shown(object sender, EventArgs e)
         {
             myregion.Text = MyRegion.ToString();
             sendmail.Checked = SendMail;
@@ -85,7 +84,7 @@ namespace Fishing
             pass.Text = Password;
         }
 
-        void options_FormClosing(object sender, FormClosingEventArgs e)
+        private void Options_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
             {
@@ -108,7 +107,7 @@ namespace Fishing
             }
         }
 
-        void sendToEmail_CheckedChanged(object sender, EventArgs e)
+        private void SendToEmail_CheckedChanged(object sender, EventArgs e)
         {
             if (sendmail.Checked)
             {

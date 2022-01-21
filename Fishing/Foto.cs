@@ -8,12 +8,12 @@ namespace Fishing
 {
     public partial class Foto : Form
     {
-        DirectoryInfo di;
-        FileInfo[] file;
-        int n = 0;
-        string dirPath = "";
-        int currentX1 = 0;
-        int currentX2 = 0;
+        private DirectoryInfo di;
+        private FileInfo[] file;
+        private int imageIndex = 0;
+        private string dirPath = "";
+        private int currentX1 = 0;
+        private int currentX2 = 0;
 
         public Foto()
         {
@@ -21,40 +21,40 @@ namespace Fishing
             this.Shown += new EventHandler(Foto_Shown);
             this.KeyDown += new KeyEventHandler(Foto_KeyDown);
             this.FormClosed += new FormClosedEventHandler(Foto_FormClosed);
-            pictureBox.MouseDown += new MouseEventHandler(pictureBox_MouseDown);
-            pictureBox.MouseUp += new MouseEventHandler(pictureBox_MouseUp);
-            openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(openFileDialog1_FileOk);
+            pictureBox.MouseDown += new MouseEventHandler(PictureBox_MouseDown);
+            pictureBox.MouseUp += new MouseEventHandler(PictureBox_MouseUp);
+            openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(OpenFileDialog1_FileOk);
         }
 
-        void pictureBox_MouseUp(object sender, MouseEventArgs e)
+        private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 currentX2 = e.X;
                 if (currentX1 - currentX2 > 40)
                 {
-                    leftImageShow();
+                    LeftImageShow();
                 }
                 if (currentX1 - currentX2 < 40)
                 {
-                    rightImageShow();
+                    RightImageShow();
                 }
             }
         }
 
-        void pictureBox_MouseDown(object sender, MouseEventArgs e)
+        private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             currentX1 = e.X;
         }
 
-        void Foto_FormClosed(object sender, FormClosedEventArgs e)
+        private void Foto_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (file == null && di.Exists) di.Delete();
             file = null;
             pictureBox.Image = null;
         }
 
-        void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        private void OpenFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (!di.Exists) di.Create();
             for (int i = 0; i < openFileDialog1.FileNames.Length; i++)
@@ -69,12 +69,12 @@ namespace Fishing
                     MessageBox.Show("Файл " + fi.Name + " уже есть в папке и открыт приложением.");
                 }
             }
-            fotoShow(0);
+            FotoShow(0);
         }
 
         void Foto_Shown(object sender, EventArgs e)
         {
-            fotoShow(0);
+            FotoShow(0);
         }
 
         public FileInfo[] GetFiles(DirectoryInfo dir, string searchPatterns)
@@ -92,7 +92,7 @@ namespace Fishing
         }
 
 
-        private void fotoShow(int imNumber)
+        private void FotoShow(int imNumber)
         {
             dirPath = AppDomain.CurrentDomain.BaseDirectory + "\\foto\\" + this.Text;
             di = new DirectoryInfo(dirPath);
@@ -103,8 +103,8 @@ namespace Fishing
                 {
                     if (file.Length > 0)
                     {
-                        n = -1;
-                        rightImageShow();
+                        imageIndex = -1;
+                        RightImageShow();
                     }
                     else
                     {
@@ -113,7 +113,7 @@ namespace Fishing
                 }
                 else
                 {
-                    leftImageShow();
+                    LeftImageShow();
                 }
             }
             else
@@ -122,7 +122,7 @@ namespace Fishing
             }
         }
 
-        private void addButton_Click(object sender, EventArgs e)
+        private void AddButton_Click(object sender, EventArgs e)
         {
             openFileDialog1.ShowDialog();
         }
@@ -135,77 +135,77 @@ namespace Fishing
                     this.Close();
                     break;
                 case Keys.PageDown:
-                    rightImageShow();
+                    RightImageShow();
                     break;
                 case Keys.PageUp:
-                    leftImageShow();
+                    LeftImageShow();
                     break;
                 case Keys.Delete:
-                    deleteImage();
+                    DeleteImage();
                     break;
             }
         }
 
-        private void delToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            deleteImage();
+            DeleteImage();
         }
 
-        private void nextToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rightImageShow();
+            RightImageShow();
         }
 
-        private void rightButton_Click(object sender, EventArgs e)
+        private void RightButton_Click(object sender, EventArgs e)
         {
-            rightImageShow();
+            RightImageShow();
         }
 
-        private void previousToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PreviousToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            leftImageShow();
+            LeftImageShow();
         }
 
-        private void leftButton_Click(object sender, EventArgs e)
+        private void LeftButton_Click(object sender, EventArgs e)
         {
-            leftImageShow();
+            LeftImageShow();
         }
 
-        private void leftImageShow()
-        {
-            if (file != null)
-            {
-                if (n > 0)
-                {
-                    n--;
-                }
-                else
-                {
-                    n = file.Length - 1;
-                }
-                pictureBox.Image = Image.FromFile(file[n].FullName);
-                toolStripStatusLabel1.Text = file[n].FullName;
-            }
-        }
-
-        private void rightImageShow()
+        private void LeftImageShow()
         {
             if (file != null)
             {
-                if (n < file.Length - 1)
+                if (imageIndex > 0)
                 {
-                    n++;
+                    imageIndex--;
                 }
                 else
                 {
-                    n = 0;
+                    imageIndex = file.Length - 1;
                 }
-                pictureBox.Image = Image.FromFile(file[n].FullName);
-                toolStripStatusLabel1.Text = file[n].FullName;
+                pictureBox.Image = Image.FromFile(file[imageIndex].FullName);
+                toolStripStatusLabel1.Text = file[imageIndex].FullName;
             }
         }
 
-        private void deleteImage()
+        private void RightImageShow()
+        {
+            if (file != null)
+            {
+                if (imageIndex < file.Length - 1)
+                {
+                    imageIndex++;
+                }
+                else
+                {
+                    imageIndex = 0;
+                }
+                pictureBox.Image = Image.FromFile(file[imageIndex].FullName);
+                toolStripStatusLabel1.Text = file[imageIndex].FullName;
+            }
+        }
+
+        private void DeleteImage()
         {
             pictureBox.Image.Dispose();
             pictureBox.Image = null;
@@ -217,7 +217,7 @@ namespace Fishing
             {
                 MessageBox.Show(ex.Message);
             }
-            fotoShow(n);
+            FotoShow(imageIndex);
         }
     }
 }

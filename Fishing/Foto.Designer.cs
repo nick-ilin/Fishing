@@ -58,7 +58,7 @@
             this.addButton.TabIndex = 2;
             this.addButton.Text = "Добавить фотографии";
             this.addButton.UseVisualStyleBackColor = true;
-            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            this.addButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
             // leftButton
             // 
@@ -68,7 +68,7 @@
             this.leftButton.TabIndex = 3;
             this.leftButton.Text = "<";
             this.leftButton.UseVisualStyleBackColor = true;
-            this.leftButton.Click += new System.EventHandler(this.leftButton_Click);
+            this.leftButton.Click += new System.EventHandler(this.LeftButton_Click);
             // 
             // rightButton
             // 
@@ -78,7 +78,7 @@
             this.rightButton.TabIndex = 4;
             this.rightButton.Text = ">";
             this.rightButton.UseVisualStyleBackColor = true;
-            this.rightButton.Click += new System.EventHandler(this.rightButton_Click);
+            this.rightButton.Click += new System.EventHandler(this.RightButton_Click);
             // 
             // openFileDialog1
             // 
@@ -152,7 +152,7 @@
             this.nextToolStripMenuItem.ShortcutKeyDisplayString = "Page Down";
             this.nextToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.nextToolStripMenuItem.Text = "Следующее фото";
-            this.nextToolStripMenuItem.Click += new System.EventHandler(this.nextToolStripMenuItem_Click);
+            this.nextToolStripMenuItem.Click += new System.EventHandler(this.NextToolStripMenuItem_Click);
             // 
             // previousToolStripMenuItem
             // 
@@ -160,7 +160,7 @@
             this.previousToolStripMenuItem.ShortcutKeyDisplayString = "Page Up";
             this.previousToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.previousToolStripMenuItem.Text = "Предыдущее фото";
-            this.previousToolStripMenuItem.Click += new System.EventHandler(this.previousToolStripMenuItem_Click);
+            this.previousToolStripMenuItem.Click += new System.EventHandler(this.PreviousToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
@@ -168,7 +168,7 @@
             this.deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.deleteToolStripMenuItem.Text = "Удалить";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.delToolStripMenuItem_Click);
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DelToolStripMenuItem_Click);
             // 
             // Foto
             // 

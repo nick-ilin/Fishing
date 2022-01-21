@@ -113,7 +113,7 @@
             this.addControls.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.toolTip.SetToolTip(this.addControls, "Добавить строку (Ctrl + +)");
             this.addControls.UseVisualStyleBackColor = true;
-            this.addControls.Click += new System.EventHandler(this.addControls_Click);
+            this.addControls.Click += new System.EventHandler(this.AddControls_Click);
             // 
             // deleteControls
             // 
@@ -129,7 +129,7 @@
             this.toolTip.SetToolTip(this.deleteControls, "Удалить строку (Ctrl + -)");
             this.deleteControls.UseVisualStyleBackColor = true;
             this.deleteControls.Visible = false;
-            this.deleteControls.Click += new System.EventHandler(this.deleteControls_Click);
+            this.deleteControls.Click += new System.EventHandler(this.DeleteControls_Click);
             // 
             // place_0
             // 
@@ -642,10 +642,11 @@
             this.fotoButton.TabIndex = 2000;
             this.fotoButton.Text = "Фотографии";
             this.fotoButton.UseVisualStyleBackColor = true;
-            this.fotoButton.Click += new System.EventHandler(this.fotoButton_Click);
+            this.fotoButton.Click += new System.EventHandler(this.FotoButton_Click);
             // 
             // date
             // 
+            this.date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.date.Location = new System.Drawing.Point(6, 19);
             this.date.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.date.Name = "date";

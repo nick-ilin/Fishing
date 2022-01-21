@@ -8,7 +8,7 @@ namespace Fishing
     public partial class GoogleMaps : Form
     {
         private static string _koordinates = "";
-        string errPath = "errors.txt";
+        private const string ERRPATH = "errors.txt";
         public NewReport NP;
         public GoogleMaps()
         {
@@ -31,7 +31,7 @@ namespace Fishing
             }
         }
 
-        void GoogleMaps_KeyDown(object sender, KeyEventArgs e)
+        private void GoogleMaps_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
@@ -39,33 +39,30 @@ namespace Fishing
             }
         }
 
-        void GoogleMaps_Shown(object sender, EventArgs e)
+        private void GoogleMaps_Shown(object sender, EventArgs e)
         {
             try
             {
-                string url = "gotomap.html?place=" + Koordinates;
-                //System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + url);
-                //mapBrowser.Navigate(AppDomain.CurrentDomain.BaseDirectory + url, "_self", postData, "Content-Type: application/x-www-form-urlencoded\r\n");
+                string url = Koordinates == "" ? "gotomap.html" : "gotomap.html?place=" + Koordinates;
                 mapBrowser.Navigate(AppDomain.CurrentDomain.BaseDirectory + url);
-                //mapBrowser.Navigate("http://processormuseum.narod.ru/" + url);
             }
             catch (Exception ex)
             {
-                writeErrors(ex.ToString());
+                WriteErrors(ex.ToString());
             }
         }
 
-        void GoogleMaps_FormClosed(object sender, FormClosedEventArgs e)
+        private void GoogleMaps_FormClosed(object sender, FormClosedEventArgs e)
         {
             Koordinates = "";
             mapBrowser.Navigate("about:blank");
         }
 
-        private void writeErrors(string error)
+        private void WriteErrors(string error)
         {
             string errors = "**********************" + DateTime.Now.Date.ToString().Replace("0:00:00", "") + " " + DateTime.Now.TimeOfDay + "*********************\n";
             errors += error + "\n***********************************************************************\n\n";
-            StreamWriter writer = new StreamWriter(errPath, true, Encoding.UTF8);
+            StreamWriter writer = new StreamWriter(ERRPATH, true, Encoding.UTF8);
             writer.Write(errors);
             writer.Flush();
             writer.Close();

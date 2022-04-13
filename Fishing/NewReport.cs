@@ -424,10 +424,7 @@ namespace Fishing
         {
             try
             {
-                string url = "gotomap.html";
-                System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + url);
                 System.Net.IPHostEntry objIPHE = System.Net.Dns.GetHostEntry("www.yandex.ru");
-
                 TextBox tb = (TextBox)sender;
                 GoogleMaps.Koordinates = tb.Text;
                 googleMaps.ShowDialog();
